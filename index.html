@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Baloo+Bhaijaan+2:wght@800&family=Fredoka:wght@700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBFAF7;font-family:'Readex Pro',system-ui,sans-serif;color:#26262B}
+a{color:inherit;text-decoration:none}a:hover{color:#A64E31}
+button{font:inherit;cursor:pointer;color:inherit}button:disabled{cursor:default}
+input,select,textarea{font:inherit;color:inherit}
+input::placeholder,textarea::placeholder{color:#9A98A1}
+h1,h2,h3,p{margin:0}
+@keyframes mf-toast{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</helmet>
+<div dir="{{ dir }}" lang="{{ lang }}" style="min-height:100vh;background:#FBFAF7;color:#26262B;font-family:'Readex Pro',system-ui,sans-serif">
+<sc-if value="{{ seasonal }}" hint-placeholder-val="{{ true }}"><button onClick="{{ goSeason }}" style="display:block;width:100%;border:0;background:#F7EAC2;text-align:center;font-size:13px;font-weight:500;padding:9px 16px">{{ t.banner }}</button></sc-if>
+<header style="position:sticky;top:0;z-index:30;background:rgba(251,250,247,.94);backdrop-filter:blur(10px);border-bottom:1px solid #E7E3DB">
+<div style="max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:12px clamp(16px,4vw,48px)">
+<button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:0"><span style="width:40px;height:40px;border-radius:12px;background:#26262B;color:#FBFAF7;display:grid;place-items:center;font-size:13px;font-weight:700;direction:ltr">M&amp;F</span><span style="font-weight:600;font-size:16px;direction:ltr">Gift Shop</span></button>
+<nav style="display:flex;gap:2px;font-size:14px;font-weight:500;flex-wrap:wrap">
+<button onClick="{{ goCats }}" style="border:0;background:transparent;padding:8px 10px;border-radius:999px" style-hover="background:#F1EEE7">{{ t.navCats }}</button>
+<button onClick="{{ goAge }}" style="border:0;background:transparent;padding:8px 10px;border-radius:999px" style-hover="background:#F1EEE7">{{ t.navAge }}</button>
+<button onClick="{{ goPers }}" style="border:0;background:transparent;padding:8px 10px;border-radius:999px" style-hover="background:#F1EEE7">{{ t.navPers }}</button>
+<button onClick="{{ goNew }}" style="border:0;background:transparent;padding:8px 10px;border-radius:999px" style-hover="background:#F1EEE7">{{ t.navNew }}</button>
+<button onClick="{{ goSeason }}" style="border:0;background:transparent;padding:8px 10px;border-radius:999px" style-hover="background:#F1EEE7">{{ t.navSeason }}</button>
+</nav>
+<div style="margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex:1 1 300px;justify-content:flex-end">
+<form onSubmit="{{ submitSearch }}" style="display:flex;align-items:center;background:#F1EEE7;border-radius:999px;padding:0 6px 0 14px;height:40px;flex:0 1 250px;min-width:150px"><input value="{{ q }}" onChange="{{ setQ }}" placeholder="{{ t.search }}" style="flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:13px;height:100%"><button type="submit" style="border:0;background:transparent;font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;color:#6B6A72">{{ t.searchBtn }}</button></form>
+<button onClick="{{ toggleLang }}" title="{{ t.langTitle }}" style="height:40px;padding:0 14px;border-radius:999px;border:1px solid #E7E3DB;background:transparent;font-weight:600;font-size:13px">{{ t.langBtn }}</button>
+<button onClick="{{ goCart }}" style="height:40px;padding:0 16px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px">{{ t.cart }} <span style="background:#F7EAC2;color:#26262B;border-radius:999px;padding:1px 7px;font-size:11px;min-width:10px;text-align:center">{{ count }}</span></button>
+</div>
+</div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main data-screen-label="Home" style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,4vw,48px)">
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;padding:48px 0 24px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:22px;align-items:flex-start">
+<span style="background:#D9E8DD;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">{{ t.heroTag }}</span>
+<h1 style="font-size:clamp(34px,4.2vw,54px);line-height:1.2;font-weight:700;text-wrap:pretty">{{ t.heroH }}</h1>
+<p style="font-size:18px;line-height:1.75;color:#6B6A72;max-width:520px;text-wrap:pretty">{{ t.heroP }}</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<button onClick="{{ goAge }}" style="height:52px;padding:0 26px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:15px">{{ t.ctaAge }}</button>
+<button onClick="{{ goPers }}" style="height:52px;padding:0 26px;border-radius:999px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:15px">{{ t.ctaPers }}</button>
+</div>
+</div>
+<div style="position:relative;height:min(520px,60vw);min-height:360px">
+<div style="position:absolute;inset:0;border-radius:48% 52% 45% 55% / 55% 45% 55% 45%;background:#F7EAC2"></div>
+<div style="position:absolute;inset:28px;border-radius:32px;overflow:hidden;background:#F1EEE7"><img src="https://images.unsplash.com/photo-1759678444866-e71e5484b0e5?auto=format&amp;fit=crop&amp;w=1100&amp;q=72" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+<button onClick="{{ openDragon }}" style="position:absolute;bottom:22px;inset-inline-start:-6px;background:#fff;border:0;border-radius:16px;padding:10px 14px 10px 10px;box-shadow:0 8px 24px rgba(38,38,43,.1);display:flex;gap:12px;align-items:center;text-align:start"><img src="https://images.unsplash.com/photo-1764322695813-ec3ce0680bb6?auto=format&amp;fit=crop&amp;w=200&amp;q=72" alt="" style="width:48px;height:48px;border-radius:12px;object-fit:cover;display:block"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:600">{{ heroName }}</span><span style="font-size:12px;color:#6B6A72">{{ heroMeta }}</span></span></button>
+</div>
+</section>
+<section style="padding:24px 0 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;gap:16px"><h2 style="font-size:26px;font-weight:700">{{ t.ageH }}</h2><button onClick="{{ goCats }}" style="border:0;background:transparent;padding:0;font-size:14px;font-weight:600;color:#6B6A72">{{ t.allProducts }}</button></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+<button onClick="{{ goAge35 }}" style="background:#D9E8DD;border:0;border-radius:24px;padding:28px;min-height:120px;display:flex;flex-direction:column;gap:8px;text-align:start;align-items:stretch"><span style="font-size:40px;font-weight:700;line-height:1;direction:ltr;text-align:end">3–5</span><span style="font-size:17px;font-weight:600">{{ t.age35T }}</span><span style="font-size:13px;line-height:1.6;color:#4E4D55">{{ t.age35D }}</span></button>
+<button onClick="{{ goAge69 }}" style="background:#D6E3F3;border:0;border-radius:24px;padding:28px;min-height:120px;display:flex;flex-direction:column;gap:8px;text-align:start;align-items:stretch"><span style="font-size:40px;font-weight:700;line-height:1;direction:ltr;text-align:end">6–9</span><span style="font-size:17px;font-weight:600">{{ t.age69T }}</span><span style="font-size:13px;line-height:1.6;color:#4E4D55">{{ t.age69D }}</span></button>
+<button onClick="{{ goAge1013 }}" style="background:#E6DFF3;border:0;border-radius:24px;padding:28px;min-height:120px;display:flex;flex-direction:column;gap:8px;text-align:start;align-items:stretch"><span style="font-size:40px;font-weight:700;line-height:1;direction:ltr;text-align:end">10–13</span><span style="font-size:17px;font-weight:600">{{ t.age1013T }}</span><span style="font-size:13px;line-height:1.6;color:#4E4D55">{{ t.age1013D }}</span></button>
+</div>
+</section>
+<section style="padding:48px 0 0">
+<h2 style="font-size:26px;font-weight:700;margin-bottom:18px">{{ t.catsH }}</h2>
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="8"><button onClick="{{ c.open }}" style="display:flex;align-items:center;gap:10px;padding:9px 16px 9px 12px;border:1px solid #E7E3DB;border-radius:999px;font-size:14px;font-weight:500;background:#fff" style-hover="border-color:#26262B"><span style="width:22px;height:22px;border-radius:50%;background:{{ c.bg }}"></span>{{ c.name }}<span style="font-size:12px;color:#6B6A72">{{ c.count }}</span></button></sc-for>
+</div>
+</section>
+<section style="padding:56px 0 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;gap:16px"><h2 style="font-size:26px;font-weight:700">{{ t.bestH }}</h2><button onClick="{{ goCats }}" style="border:0;background:transparent;padding:0;font-size:14px;font-weight:600;color:#6B6A72">{{ t.allProducts }}</button></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:28px 20px">
+<sc-for list="{{ best }}" as="p" hint-placeholder-count="8">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div onClick="{{ p.open }}" style="position:relative;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#F1EEE7;cursor:pointer"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s" style-hover="transform:scale(1.04)"><span style="position:absolute;top:12px;right:12px;background:#FBFAF7;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600;direction:ltr">{{ p.ageLabel }}</span><sc-if value="{{ p.pers }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:12px;left:12px;background:#26262B;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600">{{ t.persTag }}</span></sc-if><sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:12px;right:12px;background:#F7EAC2;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600">{{ t.new }}</span></sc-if></div>
+<div onClick="{{ p.open }}" style="display:flex;flex-direction:column;gap:2px;cursor:pointer"><span style="font-size:15px;font-weight:600">{{ p.name }}</span><sc-if value="{{ showAlt }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#6B6A72;direction:{{ altDir }};text-align:end">{{ p.alt }}</span></sc-if><span style="font-size:12px;font-weight:600;color:{{ p.availColor }}">{{ p.availStr }}</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px;font-weight:700">{{ p.priceStr }} {{ t.cur }}</span><button onClick="{{ p.add }}" style="height:36px;padding:0 16px;border-radius:999px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:13px" style-hover="background:#26262B;color:#fff">{{ t.add }}</button></div>
+</div>
+</sc-for>
+</div>
+</section>
+<section style="margin-top:56px;background:#F6DBD4;border-radius:32px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+<span style="background:#FBFAF7;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">{{ t.persTag }}</span>
+<h2 style="font-size:36px;font-weight:700;line-height:1.3">{{ t.persH }}</h2>
+<p style="font-size:16px;line-height:1.75;color:#4E4D55;max-width:440px">{{ t.persP }}</p>
+<div style="display:flex;gap:10px;width:100%;max-width:440px"><input value="{{ pName }}" onChange="{{ setName }}" maxLength="12" placeholder="{{ t.persPh }}" style="flex:1;min-width:0;height:48px;border:0;border-radius:999px;padding:0 18px;background:#FBFAF7;font-size:15px;outline:none"><button onClick="{{ goPers }}" style="height:48px;padding:0 22px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:14px;white-space:nowrap">{{ t.persBtn }}</button></div>
+</div>
+<div style="background:#FBFAF7;border-radius:24px;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px"><div style="background:#D6E3F3;border-radius:999px;padding:16px 48px;font-size:44px;font-weight:700;box-shadow:inset 0 -6px 0 rgba(38,38,43,.1);min-width:200px;text-align:center">{{ pNameShow }}</div><span style="font-size:12px;color:#6B6A72">{{ t.persPrev }}</span></div>
+</section>
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;padding:64px 0 0;align-items:center">
+<div style="border-radius:28px;overflow:hidden;aspect-ratio:4/3;background:#F1EEE7"><img src="https://images.unsplash.com/photo-1611117775350-ac3950990985?auto=format&amp;fit=crop&amp;w=1000&amp;q=72" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+<div style="display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:30px;font-weight:700;line-height:1.3">{{ t.whyH }}</h2>
+<div style="border-top:2px solid #26262B;padding-top:14px;display:flex;flex-direction:column;gap:6px"><span style="font-size:16px;font-weight:600">{{ t.why1T }}</span><span style="font-size:14px;line-height:1.7;color:#6B6A72">{{ t.why1D }}</span></div>
+<div style="border-top:2px solid #26262B;padding-top:14px;display:flex;flex-direction:column;gap:6px"><span style="font-size:16px;font-weight:600">{{ t.why2T }}</span><span style="font-size:14px;line-height:1.7;color:#6B6A72">{{ t.why2D }}</span></div>
+<div style="border-top:2px solid #26262B;padding-top:14px;display:flex;flex-direction:column;gap:6px"><span style="font-size:16px;font-weight:600">{{ t.why3T }}</span><span style="font-size:14px;line-height:1.7;color:#6B6A72">{{ t.why3D }}</span></div>
+</div>
+</section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isCat }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Category" style="max-width:1280px;margin:0 auto;padding:28px clamp(16px,4vw,48px) 64px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;gap:8px;font-size:13px;color:#6B6A72;flex-wrap:wrap"><button onClick="{{ goHome }}" style="border:0;background:transparent;padding:0;color:inherit">{{ t.bcHome }}</button><span>/</span><button onClick="{{ goCats }}" style="border:0;background:transparent;padding:0;color:inherit">{{ t.navCats }}</button><span>/</span><span style="color:#26262B">{{ catTitle }}</span></div>
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap"><div style="display:flex;flex-direction:column;gap:8px"><h1 style="font-size:clamp(30px,3.5vw,40px);font-weight:700">{{ catTitle }}</h1><p style="font-size:15px;line-height:1.7;color:#6B6A72;max-width:560px">{{ catDesc }}</p></div><span style="font-size:13px;color:#6B6A72;white-space:nowrap">{{ listCount }} {{ t.products }}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+<aside style="flex:0 0 220px;display:flex;flex-direction:column;gap:26px;font-size:14px">
+<div style="display:flex;flex-direction:column;gap:12px"><span style="font-weight:700">{{ t.fAge }}</span><sc-for list="{{ ageOpts }}" as="a" hint-placeholder-count="3"><label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox" checked="{{ a.on }}" onChange="{{ a.toggle }}" style="width:18px;height:18px;accent-color:#26262B;margin:0">{{ a.label }}<span style="color:#6B6A72;margin-inline-start:auto">{{ a.count }}</span></label></sc-for></div>
+<label style="display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer"><span style="font-weight:700">{{ t.fPers }}</span><input type="checkbox" checked="{{ persOnly }}" onChange="{{ togglePers }}" style="width:18px;height:18px;accent-color:#26262B;margin:0"></label>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-weight:700">{{ t.fSort }}</span><div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ sortOpts }}" as="s" hint-placeholder-count="4"><button onClick="{{ s.pick }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};font-size:13px;font-weight:600;text-align:start">{{ s.label }}</button></sc-for></div></div>
+<button onClick="{{ clearFilters }}" style="border:0;background:transparent;padding:0;font-size:13px;color:#6B6A72;text-decoration:underline;align-self:flex-start">{{ t.clear }}</button>
+</aside>
+<div style="flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<sc-if value="{{ listEmpty }}" hint-placeholder-val="{{ false }}"><div style="border:1px dashed #C9C4BA;border-radius:24px;padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center"><span style="font-size:18px;font-weight:600">{{ t.emptyT }}</span><span style="font-size:14px;color:#6B6A72">{{ t.emptyD }}</span><button onClick="{{ clearFilters }}" style="height:44px;padding:0 20px;border-radius:999px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:14px">{{ t.clear }}</button></div></sc-if>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:28px 20px">
+<sc-for list="{{ list }}" as="p" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div onClick="{{ p.open }}" style="position:relative;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#F1EEE7;cursor:pointer"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s" style-hover="transform:scale(1.04)"><span style="position:absolute;top:12px;right:12px;background:#FBFAF7;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600;direction:ltr">{{ p.ageLabel }}</span><sc-if value="{{ p.pers }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:12px;left:12px;background:#26262B;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600">{{ t.persTag }}</span></sc-if><sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:12px;right:12px;background:#F7EAC2;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600">{{ t.new }}</span></sc-if></div>
+<div onClick="{{ p.open }}" style="display:flex;flex-direction:column;gap:2px;cursor:pointer"><span style="font-size:15px;font-weight:600">{{ p.name }}</span><sc-if value="{{ showAlt }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#6B6A72;direction:{{ altDir }};text-align:end">{{ p.alt }}</span></sc-if><span style="font-size:12px;font-weight:600;color:{{ p.availColor }}">{{ p.availStr }}</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px;font-weight:700">{{ p.priceStr }} {{ t.cur }}</span><button onClick="{{ p.add }}" style="height:36px;padding:0 16px;border-radius:999px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:13px" style-hover="background:#26262B;color:#fff">{{ t.add }}</button></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isPdp }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Product" style="max-width:1280px;margin:0 auto;padding:24px clamp(16px,4vw,48px) 64px">
+<div style="display:flex;gap:8px;font-size:13px;color:#6B6A72;flex-wrap:wrap"><button onClick="{{ goHome }}" style="border:0;background:transparent;padding:0;color:inherit">{{ t.bcHome }}</button><span>/</span><button onClick="{{ goPrCat }}" style="border:0;background:transparent;padding:0;color:inherit">{{ prCat }}</button><span>/</span><span style="color:#26262B">{{ prName }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;padding-top:20px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="position:relative;aspect-ratio:1;border-radius:28px;overflow:hidden;background:#F1EEE7"><sc-if value="{{ isPdp }}" hint-placeholder-val="{{ false }}"><img src="{{ mainImg }}" alt="{{ prName }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if><span style="position:absolute;bottom:14px;inset-inline-start:14px;background:rgba(251,250,247,.92);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600">{{ mainLabel }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px"><sc-for list="{{ thumbs }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.pick }}" style="aspect-ratio:1;border-radius:14px;overflow:hidden;border:0;padding:0;background:#F1EEE7;box-shadow:{{ g.ring }}"><img src="{{ g.thumb }}" alt="{{ g.label }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:22px;min-width:0">
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#D9E8DD;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;direction:ltr">{{ prAge }}</span><button onClick="{{ goPrCat }}" style="background:#F1EEE7;border:0;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600">{{ prCat }}</button><sc-if value="{{ prNew }}" hint-placeholder-val="{{ false }}"><span style="background:#F7EAC2;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600">{{ t.new }}</span></sc-if></div>
+<div style="display:flex;flex-direction:column;gap:6px"><h1 style="font-size:clamp(28px,3vw,36px);font-weight:700;line-height:1.3">{{ prName }}</h1><sc-if value="{{ showAlt }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;color:#6B6A72;direction:{{ altDir }};text-align:end">{{ prAlt }}</span></sc-if></div>
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-size:28px;font-weight:700">{{ prPrice }} {{ t.cur }}</span><span style="font-size:13px;color:#6B6A72">{{ t.inclTax }}</span><span style="font-size:13px;font-weight:600;color:{{ prAvailColor }}">· {{ prAvail }}</span><sc-if value="{{ prPers }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#6B6A72">{{ t.persFeeNote }} +{{ persFeeStr }} {{ t.cur }}</span></sc-if></div>
+<p style="font-size:15px;line-height:1.8;color:#4E4D55">{{ prDesc }}</p>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:14px;font-weight:600">{{ t.color }} <span style="font-weight:400;color:#6B6A72">{{ colorName }}</span></span><div style="display:flex;gap:12px"><sc-for list="{{ colors }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.pick }}" title="{{ c.name }}" style="width:34px;height:34px;border-radius:50%;border:0;background:{{ c.hex }};box-shadow:{{ c.ring }}"></button></sc-for></div></div>
+<sc-if value="{{ prPers }}" hint-placeholder-val="{{ false }}"><div style="background:#F6DBD4;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">{{ t.addName }}</span><span style="font-size:12px;color:#6B6A72">{{ plateInfo }}</span></span><span style="font-size:12px;font-weight:600;white-space:nowrap">+{{ persFeeStr }} {{ t.cur }}</span></div>
+<input value="{{ pName }}" onChange="{{ setName }}" maxLength="{{ nameMax }}" placeholder="{{ t.namePh }}" style="height:46px;border:0;border-radius:12px;padding:0 14px;background:#FBFAF7;font-size:14px;outline:none;width:100%;box-sizing:border-box">
+<div style="position:relative;border-radius:16px;overflow:hidden;background:#F1EEE7;aspect-ratio:16/11"><iframe data-mf-studio="1" src="name-studio.html" title="{{ t.studioTitle }}" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe><button onClick="{{ openStudio }}" style="position:absolute;top:10px;inset-inline-start:10px;height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(38,38,43,.15);background:rgba(255,255,255,.92);font-size:12px;font-weight:600">⤢ {{ t.expand }}</button></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 16px">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.plateColor }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ plateColors }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.pick }}" title="{{ c.name }}" style="width:28px;height:28px;border-radius:50%;border:0;padding:0;background:{{ c.hex }};box-shadow:{{ c.ring }}"></button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.textColor }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ textColors }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.pick }}" title="{{ c.name }}" style="width:28px;height:28px;border-radius:50%;border:0;padding:0;background:{{ c.hex }};box-shadow:{{ c.ring }}"></button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.fontLbl }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ fontOpts }}" as="f" hint-placeholder-count="2"><button onClick="{{ f.pick }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }};font-size:15px;font-weight:700;font-family:{{ f.fam }}">{{ f.label }}</button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.shapeLbl }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ shapeOpts }}" as="s" hint-placeholder-count="4"><button onClick="{{ s.pick }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};font-size:13px;font-weight:600">{{ s.label }}</button></sc-for></div></div>
+</div>
+<span style="font-size:12px;color:#6B6A72">{{ t.nameHint }}</span></div></sc-if>
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="display:flex;align-items:center;border:1px solid #E7E3DB;border-radius:999px;height:52px"><button onClick="{{ dec }}" style="width:48px;height:100%;border:0;background:transparent;font-size:20px">−</button><span style="min-width:28px;text-align:center;font-weight:600">{{ qty }}</span><button onClick="{{ inc }}" style="width:48px;height:100%;border:0;background:transparent;font-size:20px">+</button></div><button onClick="{{ addOrView }}" style="flex:1;min-width:200px;height:52px;border-radius:999px;border:0;background:{{ addBg }};color:#fff;font-weight:600;font-size:15px">{{ addLabel }}</button><button onClick="{{ toggleFav }}" title="{{ t.fav }}" style="width:52px;height:52px;border-radius:50%;border:1px solid #E7E3DB;background:transparent;font-size:20px;color:#A64E31">{{ favLabel }}</button></div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#4E4D55;line-height:1.6"><span style="color:{{ prAvailColor }};font-weight:600">• {{ availBullet }}</span><span>• {{ t.bullet2 }}</span><span>• {{ t.bullet3 }}</span></div>
+<div style="border-top:1px solid #E7E3DB;padding-top:16px;display:flex;flex-direction:column;gap:10px"><span style="font-weight:600;font-size:15px">{{ t.specs }}</span><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:13px;color:#4E4D55"><span>{{ t.specMat }}</span><span>{{ t.specSize }} {{ prSize }}</span><span>{{ t.specWeight }} {{ prWeight }}</span><span>{{ t.specAge }} {{ prAge }}</span></div></div>
+</div>
+</div>
+<section style="padding-top:64px">
+<h2 style="font-size:26px;font-weight:700;margin-bottom:22px">{{ t.relatedH }}</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:28px 20px">
+<sc-for list="{{ related }}" as="p" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div onClick="{{ p.open }}" style="position:relative;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#F1EEE7;cursor:pointer"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s" style-hover="transform:scale(1.04)"><span style="position:absolute;top:12px;right:12px;background:#FBFAF7;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600;direction:ltr">{{ p.ageLabel }}</span><sc-if value="{{ p.pers }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:12px;left:12px;background:#26262B;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600">{{ t.persTag }}</span></sc-if></div>
+<div onClick="{{ p.open }}" style="display:flex;flex-direction:column;gap:2px;cursor:pointer"><span style="font-size:15px;font-weight:600">{{ p.name }}</span><sc-if value="{{ showAlt }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#6B6A72;direction:{{ altDir }};text-align:end">{{ p.alt }}</span></sc-if><span style="font-size:12px;font-weight:600;color:{{ p.availColor }}">{{ p.availStr }}</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px;font-weight:700">{{ p.priceStr }} {{ t.cur }}</span><button onClick="{{ p.add }}" style="height:36px;padding:0 16px;border-radius:999px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:13px" style-hover="background:#26262B;color:#fff">{{ t.add }}</button></div>
+</div>
+</sc-for>
+</div>
+</section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isCart }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Cart" style="max-width:1280px;margin:0 auto;padding:40px clamp(16px,4vw,48px) 64px;display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+<div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<h1 style="font-size:34px;font-weight:700">{{ t.cart }} <span style="font-size:16px;font-weight:500;color:#6B6A72">({{ count }} {{ t.items }})</span></h1>
+<sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}"><div style="border:1px dashed #C9C4BA;border-radius:24px;padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center"><span style="font-size:18px;font-weight:600">{{ t.cartEmptyT }}</span><span style="font-size:14px;color:#6B6A72">{{ t.cartEmptyD }}</span><button onClick="{{ goCats }}" style="height:46px;padding:0 22px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:14px">{{ t.shopNow }}</button></div></sc-if>
+<div style="display:flex;flex-direction:column">
+<sc-for list="{{ lines }}" as="l" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:16px 20px;align-items:center;padding:20px 0;border-top:1px solid #E7E3DB">
+<button onClick="{{ l.open }}" style="width:96px;height:96px;border-radius:16px;overflow:hidden;border:0;padding:0;background:#F1EEE7"><img src="{{ l.img }}" alt="{{ l.name }}" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+<div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:16px;font-weight:600">{{ l.name }}</span><span style="font-size:13px;color:#6B6A72">{{ l.note }}</span><button onClick="{{ l.remove }}" style="border:0;background:transparent;padding:0;font-size:12px;color:#6B6A72;text-decoration:underline;align-self:flex-start;margin-top:4px">{{ t.remove }}</button></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px"><span style="font-size:16px;font-weight:700">{{ l.line }} {{ t.cur }}</span><div style="display:flex;align-items:center;border:1px solid #E7E3DB;border-radius:999px;height:40px"><button onClick="{{ l.dec }}" style="width:38px;height:100%;border:0;background:transparent;font-size:18px">−</button><span style="min-width:24px;text-align:center;font-weight:600;font-size:14px">{{ l.qty }}</span><button onClick="{{ l.inc }}" style="width:38px;height:100%;border:0;background:transparent;font-size:18px">+</button></div></div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ hasLines }}" hint-placeholder-val="{{ false }}"><div style="border-top:1px solid #E7E3DB;padding-top:16px;font-size:13px;color:#6B6A72;line-height:1.7">{{ t.persReturn }}</div></sc-if>
+</div>
+<aside style="flex:0 1 360px;min-width:280px;display:flex;flex-direction:column;gap:12px;position:sticky;top:96px">
+<div style="background:#fff;border:1px solid #E7E3DB;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:16px">
+<span style="font-size:18px;font-weight:700">{{ t.summary }}</span>
+<div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+<div style="display:flex;justify-content:space-between"><span style="color:#6B6A72">{{ t.subtotal }}</span><span>{{ subtotalStr }} {{ t.cur }}</span></div>
+<sc-if value="{{ hasDiscount }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;color:#2F6B4F"><span>{{ t.promoLine }}</span><span>− {{ discountStr }} {{ t.cur }}</span></div></sc-if>
+<div style="display:flex;justify-content:space-between"><span style="color:#6B6A72">{{ t.shipping }} — {{ cityLabel }}</span><span>{{ shipStr }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="color:#6B6A72">{{ t.giftWrap }}</span><span style="display:flex;align-items:center;gap:8px;font-size:13px">{{ t.free }} <button onClick="{{ toggleGift }}" title="{{ t.giftWrap }}" style="width:36px;height:22px;border-radius:999px;border:0;background:{{ giftBg }};position:relative;padding:0"><span style="position:absolute;top:3px;inset-inline-start:{{ giftKnob }};width:16px;height:16px;border-radius:50%;background:#fff;transition:inset-inline-start .2s"></span></button></span></div>
+</div>
+<sc-if value="{{ freeShipNoteOn }}" hint-placeholder-val="{{ false }}"><div style="background:#F7EAC2;border-radius:12px;padding:10px 12px;font-size:12px">{{ freeShipNote }}</div></sc-if>
+<div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><input value="{{ promo }}" onChange="{{ setPromo }}" placeholder="{{ t.promoPh }}" style="flex:1;min-width:0;height:44px;border:1px solid #E7E3DB;border-radius:12px;padding:0 14px;background:#FBFAF7;font-size:14px;outline:none"><button onClick="{{ applyPromo }}" style="height:44px;padding:0 16px;border-radius:12px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:13px">{{ t.apply }}</button></div><span style="font-size:11px;color:#9A98A1">{{ t.promoHint }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #E7E3DB;padding-top:16px"><span style="font-size:16px;font-weight:700">{{ t.total }}</span><span style="font-size:24px;font-weight:700">{{ totalStr }} {{ t.cur }}</span></div>
+<button onClick="{{ goCheckout }}" disabled="{{ cartEmpty }}" style="height:54px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:15px;opacity:{{ checkoutOp }}">{{ t.checkout }}</button>
+<div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;direction:ltr;font-size:11px;color:#6B6A72"><span style="border:1px solid #E7E3DB;border-radius:6px;padding:2px 7px">Visa</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:2px 7px">Meeza</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:2px 7px">Fawry</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:2px 7px">Vodafone Cash</span></div>
+</div>
+<div style="background:#D9E8DD;border-radius:20px;padding:16px 20px;font-size:13px;line-height:1.7"><sc-if value="{{ hasLines }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-weight:600;margin-bottom:4px">{{ leadNote }}</span></sc-if>{{ t.cartNote }}</div>
+</aside>
+</main>
+</sc-if>
+
+<sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Checkout" style="max-width:1280px;margin:0 auto;padding:32px clamp(16px,4vw,48px) 64px;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+<div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap"><h1 style="font-size:34px;font-weight:700">{{ t.checkout }}</h1><span style="font-size:13px;color:#6B6A72">{{ t.secure }} <button onClick="{{ goCart }}" style="border:0;background:transparent;padding:0;text-decoration:underline;color:inherit;font-size:13px">{{ t.backCart }}</button></span></div>
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2 style="font-size:22px;font-weight:700">{{ t.contactH }}</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ fName.val }}" onChange="{{ fName.set }}" placeholder="{{ t.namePhF }}" style="height:50px;border:{{ fName.border }};border-radius:14px;padding:0 16px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"><sc-if value="{{ fName.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ fName.err }}</span></sc-if></label>
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ fPhone.val }}" onChange="{{ fPhone.set }}" placeholder="01xxxxxxxxx" inputMode="tel" style="height:50px;border:{{ fPhone.border }};border-radius:14px;padding:0 16px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box;direction:ltr;text-align:{{ numAlign }}"><sc-if value="{{ fPhone.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ fPhone.err }}</span></sc-if></label>
+<label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1"><input value="{{ fEmail.val }}" onChange="{{ fEmail.set }}" placeholder="{{ t.emailPh }}" inputMode="email" style="height:50px;border:1px solid #E7E3DB;border-radius:14px;padding:0 16px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></label>
+</div>
+</section>
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2 style="font-size:22px;font-weight:700">{{ t.addrH }}</h2>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:13px;font-weight:600;color:#6B6A72">{{ t.gov }}</span><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ cities }}" as="c" hint-placeholder-count="10"><button onClick="{{ c.pick }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:600">{{ c.label }}</button></sc-for></div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ fArea.val }}" onChange="{{ fArea.set }}" placeholder="{{ t.areaPh }}" style="height:50px;border:{{ fArea.border }};border-radius:14px;padding:0 16px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"><sc-if value="{{ fArea.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ fArea.err }}</span></sc-if></label>
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ fStreet.val }}" onChange="{{ fStreet.set }}" placeholder="{{ t.streetPh }}" style="height:50px;border:{{ fStreet.border }};border-radius:14px;padding:0 16px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"><sc-if value="{{ fStreet.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ fStreet.err }}</span></sc-if></label>
+<label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1"><input value="{{ fNote.val }}" onChange="{{ fNote.set }}" placeholder="{{ t.notePh }}" style="height:50px;border:1px solid #E7E3DB;border-radius:14px;padding:0 16px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></label>
+</div>
+</section>
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2 style="font-size:22px;font-weight:700">{{ t.shipH }}</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+<sc-for list="{{ shipOpts }}" as="s" hint-placeholder-count="2"><button onClick="{{ s.pick }}" style="border:{{ s.border }};border-radius:16px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;background:#fff;text-align:start;opacity:{{ s.op }}"><span style="width:20px;height:20px;border-radius:50%;border:{{ s.dot }};box-sizing:border-box;margin-top:2px;flex:none"></span><span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0"><span style="display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:14px"><span>{{ s.name }}</span><span>{{ s.priceStr }}</span></span><span style="font-size:13px;color:#6B6A72">{{ s.sub }}</span></span></button></sc-for>
+</div>
+</section>
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2 style="font-size:22px;font-weight:700">{{ t.payH }}</h2>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ payOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="border:{{ o.border }};border-radius:16px;padding:16px 18px;display:flex;gap:12px;align-items:center;background:#fff;text-align:start"><span style="width:20px;height:20px;border-radius:50%;border:{{ o.dot }};box-sizing:border-box;flex:none"></span><span style="font-weight:600;font-size:14px;flex:1">{{ o.name }}</span><span style="font-size:12px;color:#6B6A72">{{ o.sub }}</span></button></sc-for>
+<sc-if value="{{ payCard }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;padding:4px 4px 0">
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ cNum.val }}" onChange="{{ cNum.set }}" placeholder="{{ t.cardPh }}" inputMode="numeric" maxLength="19" style="height:46px;border:{{ cNum.border }};border-radius:12px;padding:0 14px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box;direction:ltr;text-align:{{ numAlign }}"><sc-if value="{{ cNum.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ cNum.err }}</span></sc-if></label>
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ cExp.val }}" onChange="{{ cExp.set }}" placeholder="MM/YY" inputMode="numeric" maxLength="5" style="height:46px;border:{{ cExp.border }};border-radius:12px;padding:0 14px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box;direction:ltr;text-align:{{ numAlign }}"><sc-if value="{{ cExp.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ cExp.err }}</span></sc-if></label>
+<label style="display:flex;flex-direction:column;gap:6px"><input value="{{ cCvv.val }}" onChange="{{ cCvv.set }}" placeholder="CVV" inputMode="numeric" maxLength="3" style="height:46px;border:{{ cCvv.border }};border-radius:12px;padding:0 14px;background:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box;direction:ltr;text-align:{{ numAlign }}"><sc-if value="{{ cCvv.has }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C0392B">{{ cCvv.err }}</span></sc-if></label>
+</div></sc-if>
+</div>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px"><button onClick="{{ pay }}" disabled="{{ paying }}" style="height:56px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:16px;width:100%">{{ payLabel }}</button><span style="font-size:12px;color:#6B6A72;text-align:center">{{ t.terms }}</span></div>
+</div>
+<aside style="flex:0 1 400px;min-width:280px;background:#fff;border:1px solid #E7E3DB;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:16px;position:sticky;top:96px">
+<span style="font-size:18px;font-weight:700">{{ t.yourOrder }}</span>
+<div style="display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{ lines }}" as="l" hint-placeholder-count="2"><div style="display:flex;gap:12px;align-items:center"><span style="position:relative;width:56px;height:56px;border-radius:12px;flex:none"><img src="{{ l.img }}" alt="" style="width:56px;height:56px;border-radius:12px;object-fit:cover;display:block"><span style="position:absolute;top:-6px;inset-inline-start:-6px;width:20px;height:20px;border-radius:50%;background:#26262B;color:#fff;font-size:11px;display:grid;place-items:center">{{ l.qty }}</span></span><div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font-size:14px;font-weight:600">{{ l.name }}</span><span style="font-size:12px;color:#6B6A72">{{ l.note }}</span></div><span style="font-size:14px;font-weight:600;white-space:nowrap">{{ l.line }}</span></div></sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:14px;border-top:1px solid #E7E3DB;padding-top:14px">
+<div style="display:flex;justify-content:space-between"><span style="color:#6B6A72">{{ t.subtotal }}</span><span>{{ subtotalStr }} {{ t.cur }}</span></div>
+<sc-if value="{{ hasDiscount }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;color:#2F6B4F"><span>{{ t.promoLine }}</span><span>− {{ discountStr }} {{ t.cur }}</span></div></sc-if>
+<div style="display:flex;justify-content:space-between;gap:8px"><span style="color:#6B6A72">{{ t.arrives }} {{ eta }}</span><span style="white-space:nowrap">{{ shipStr }}</span></div>
+<sc-if value="{{ hasCod }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between"><span style="color:#6B6A72">{{ t.codFee }}</span><span>{{ codStr }} {{ t.cur }}</span></div></sc-if>
+<div style="display:flex;justify-content:space-between"><span style="color:#6B6A72">{{ t.giftWrap }}</span><span>{{ giftLabel }}</span></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #E7E3DB;padding-top:14px"><span style="font-size:16px;font-weight:700">{{ t.total }}</span><span style="font-size:24px;font-weight:700">{{ payTotalStr }} {{ t.cur }}</span></div>
+<sc-if value="{{ gift }}" hint-placeholder-val="{{ false }}"><div style="background:#F7EAC2;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px"><span style="font-size:13px;font-weight:600">{{ t.giftMsgH }}</span><textarea value="{{ giftMsg }}" onChange="{{ setGiftMsg }}" rows="2" maxLength="120" placeholder="{{ t.giftMsgPh }}" style="border:0;border-radius:10px;padding:10px 12px;background:#FBFAF7;font-size:13px;outline:none;resize:vertical;width:100%;box-sizing:border-box"></textarea></div></sc-if>
+</aside>
+</main>
+</sc-if>
+
+<sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Order confirmation" style="max-width:720px;margin:0 auto;padding:64px clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:24px;align-items:center;text-align:center">
+<span style="width:72px;height:72px;border-radius:50%;background:#D9E8DD;display:grid;place-items:center;font-size:30px;font-weight:700;color:#2F6B4F">✓</span>
+<h1 style="font-size:34px;font-weight:700">{{ t.doneH }}</h1>
+<p style="font-size:15px;line-height:1.8;color:#6B6A72;max-width:480px">{{ t.doneP1 }} <strong style="color:#26262B;direction:ltr;display:inline-block">{{ o.no }}</strong> {{ t.doneP2 }} <span style="direction:ltr;display:inline-block;color:#26262B">{{ o.phone }}</span> {{ t.doneP3 }}</p>
+<div style="width:100%;box-sizing:border-box;background:#fff;border:1px solid #E7E3DB;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px;text-align:start">
+<sc-for list="{{ oLines }}" as="l" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span><span style="font-weight:600">{{ l.name }}</span> <span style="color:#6B6A72">× {{ l.qty }} · {{ l.note }}</span></span><span style="font-weight:600;white-space:nowrap">{{ l.line }} {{ t.cur }}</span></div></sc-for>
+<div style="border-top:1px solid #E7E3DB;padding-top:14px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+<div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#6B6A72">{{ t.shipping }}</span><span>{{ o.ship }}</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#6B6A72">{{ t.payMethod }}</span><span>{{ o.method }}</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#6B6A72">{{ t.deliverTo }}</span><span style="text-align:end">{{ o.addr }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #E7E3DB;padding-top:10px"><span style="font-weight:700">{{ t.total }}</span><span style="font-size:20px;font-weight:700">{{ o.total }} {{ t.cur }}</span></div>
+</div>
+</div>
+<div style="width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;text-align:start">
+<div style="background:#D9E8DD;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:600;color:#4E4D55">{{ t.step1 }}</span><span style="font-size:14px;font-weight:600">{{ t.step1D }}</span></div>
+<div style="background:#D6E3F3;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:600;color:#4E4D55">{{ t.step2 }}</span><span style="font-size:14px;font-weight:600">{{ t.step2D }}</span></div>
+<div style="background:#E6DFF3;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:600;color:#4E4D55">{{ t.step3 }}</span><span style="font-size:14px;font-weight:600">{{ o.eta }}</span></div>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><button onClick="{{ goHome }}" style="height:50px;padding:0 26px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:15px">{{ t.backHome }}</button><button onClick="{{ trackOrder }}" style="height:50px;padding:0 26px;border-radius:999px;border:1px solid #26262B;background:transparent;font-weight:600;font-size:15px">{{ t.track }}</button></div>
+</main>
+</sc-if>
+
+<footer style="border-top:1px solid #E7E3DB;margin-top:24px">
+<div style="max-width:1280px;margin:0 auto;padding:40px clamp(16px,4vw,48px) 28px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px"><span style="font-weight:700;font-size:18px;direction:ltr;align-self:flex-start;width:max-content">M&amp;F Gift Shop</span><span style="font-size:14px;line-height:1.7;color:#6B6A72;max-width:300px">{{ t.footAbout }}</span></div>
+<div style="display:flex;flex-direction:column;gap:10px;font-size:14px;align-items:flex-start"><span style="font-weight:600">{{ t.footCats }}</span><button onClick="{{ goCats }}" style="border:0;background:transparent;padding:0">{{ t.allProducts }}</button><button onClick="{{ goPers }}" style="border:0;background:transparent;padding:0">{{ t.navPers }}</button><button onClick="{{ goNew }}" style="border:0;background:transparent;padding:0">{{ t.navNew }}</button><button onClick="{{ goSeason }}" style="border:0;background:transparent;padding:0">{{ t.navSeason }}</button></div>
+<div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:#4E4D55"><span style="font-weight:600;color:#26262B">{{ t.footHelp }}</span><span>{{ t.help1 }}</span><span>{{ t.help2 }}</span><span>{{ t.help3 }}</span><span>{{ t.help4 }}</span></div>
+<div style="display:flex;flex-direction:column;gap:12px"><span style="font-weight:600;font-size:14px">{{ t.newsH }}</span><div style="display:flex;gap:8px"><input placeholder="{{ t.emailPh2 }}" style="flex:1;min-width:0;height:44px;border:1px solid #E7E3DB;border-radius:999px;padding:0 16px;background:#fff;font-size:14px;outline:none"><button onClick="{{ subscribe }}" style="height:44px;padding:0 18px;border-radius:999px;border:0;background:#26262B;color:#fff;font-weight:600;font-size:13px">{{ t.subscribe }}</button></div></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:36px;font-size:12px;color:#6B6A72"><span>© 2026 M&amp;F Gift Shop</span><div style="display:flex;gap:6px;flex-wrap:wrap;direction:ltr"><span style="border:1px solid #E7E3DB;border-radius:6px;padding:3px 8px">Visa</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:3px 8px">Mastercard</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:3px 8px">Meeza</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:3px 8px">Fawry</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:3px 8px">Vodafone Cash</span><span style="border:1px solid #E7E3DB;border-radius:6px;padding:3px 8px">InstaPay</span></div></div>
+</div>
+</footer>
+
+<sc-if value="{{ studioOpen }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Name studio" style="position:fixed;inset:0;z-index:60;background:rgba(38,38,43,.55);display:flex;align-items:center;justify-content:center;padding:clamp(0px,2vw,24px)"><div style="background:#FBFAF7;border-radius:24px;overflow:auto;width:min(1180px,100%);max-height:100%;display:flex;flex-wrap:wrap;align-items:stretch;box-shadow:0 30px 80px rgba(38,38,43,.35)">
+<div style="position:relative;flex:2 1 480px;min-width:0;aspect-ratio:4/3;background:#F1EEE7"><iframe data-mf-studio="1" src="name-studio.html" title="{{ t.studioTitle }}" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe></div>
+<div style="flex:1 1 300px;min-width:0;padding:22px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box;border-inline-start:1px solid #E7E3DB;overflow:auto">
+<div style="display:flex;align-items:flex-start;gap:10px"><span style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0"><span style="font-size:18px;font-weight:700">{{ t.studioH }}</span><span style="font-size:12px;color:#6B6A72;line-height:1.6">{{ prName }} · {{ t.studioSub }}</span></span><button onClick="{{ closeStudio }}" title="{{ t.close }}" style="width:38px;height:38px;border-radius:50%;border:1px solid #E7E3DB;background:#fff;font-size:18px;flex:none">×</button></div>
+<input value="{{ pName }}" onChange="{{ setName }}" maxLength="{{ nameMax }}" placeholder="{{ t.namePh }}" style="height:48px;border:1px solid #E7E3DB;border-radius:12px;padding:0 14px;background:#fff;font-size:15px;outline:none;width:100%;box-sizing:border-box">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.plateColor }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ plateColors }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.pick }}" title="{{ c.name }}" style="width:30px;height:30px;border-radius:50%;border:0;padding:0;background:{{ c.hex }};box-shadow:{{ c.ring }}"></button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.textColor }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ textColors }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.pick }}" title="{{ c.name }}" style="width:30px;height:30px;border-radius:50%;border:0;padding:0;background:{{ c.hex }};box-shadow:{{ c.ring }}"></button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.fontLbl }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ fontOpts }}" as="f" hint-placeholder-count="2"><button onClick="{{ f.pick }}" style="height:38px;padding:0 16px;border-radius:999px;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }};font-size:16px;font-weight:700;font-family:{{ f.fam }}">{{ f.label }}</button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600">{{ t.shapeLbl }}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ shapeOpts }}" as="s" hint-placeholder-count="4"><button onClick="{{ s.pick }}" style="height:38px;padding:0 16px;border-radius:999px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};font-size:13px;font-weight:600">{{ s.label }}</button></sc-for></div></div>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:12px;border-top:1px solid #E7E3DB"><span style="font-size:12px;color:#6B6A72;line-height:1.6">{{ t.studioNote }}</span><button onClick="{{ addOrView }}" style="height:52px;border-radius:999px;border:0;background:{{ addBg }};color:#fff;font-weight:600;font-size:15px">{{ addLabel }}</button></div>
+</div></div></div></sc-if>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:50;background:#26262B;color:#fff;border-radius:999px;padding:10px 18px 10px 10px;display:flex;align-items:center;gap:14px;font-size:14px;font-weight:500;box-shadow:0 10px 30px rgba(38,38,43,.25);white-space:nowrap;animation:mf-toast .25s ease-out"><sc-if value="{{ toastAction }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goCart }}" style="height:32px;padding:0 14px;border-radius:999px;border:0;background:#F7EAC2;color:#26262B;font-weight:600;font-size:13px">{{ t.viewCart }}</button></sc-if><span style="padding-inline-end:4px">{{ toastMsg }}</span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLanguage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ar&quot;,&quot;en&quot;],&quot;default&quot;:&quot;en&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;اللغة / Language&quot;},&quot;showBothNames&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;المنتجات&quot;},&quot;seasonalBanner&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;الرئيسية&quot;},&quot;personalizationFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:40,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:150,&quot;step&quot;:5,&quot;unit&quot;:&quot;EGP&quot;,&quot;section&quot;:&quot;المنتجات&quot;},&quot;freeShippingOver&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:2000,&quot;step&quot;:50,&quot;unit&quot;:&quot;EGP&quot;,&quot;section&quot;:&quot;السلة&quot;}}">
+const IMG = (id, w) => 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&w=' + w + '&q=72';
+const WS = ['1760446410459-65325b72ef59', '1611117775350-ac3950990985'];
+const AGES = ['3–5', '6–9', '10–13'];
+const COLORS = [{ar:'نعناعي',en:'Mint',hex:'#B9DCC8'},{ar:'لافندر',en:'Lavender',hex:'#CDBFEA'},{ar:'خوخي',en:'Peach',hex:'#F5C9B3'},{ar:'أصفر',en:'Yellow',hex:'#F2DE9A'},{ar:'سماوي',en:'Sky',hex:'#B9D3EE'}];
+const PLATES = { S:{ar:'صغيرة',en:'Small',max:8,font:'15px'}, M:{ar:'متوسطة',en:'Medium',max:12,font:'18px'}, L:{ar:'كبيرة',en:'Large',max:16,font:'21px'} };
+const PLATE_COLORS = [...COLORS, {ar:'أبيض',en:'White',hex:'#F7F5F0'}, {ar:'فحمي',en:'Charcoal',hex:'#26262B'}];
+const TEXT_COLORS = [{ar:'فحمي',en:'Charcoal',hex:'#26262B'},{ar:'أبيض',en:'White',hex:'#FFFFFF'},{ar:'مرجاني',en:'Coral',hex:'#E8846B'},{ar:'كحلي',en:'Navy',hex:'#2F4A7A'},{ar:'أخضر',en:'Forest',hex:'#2F6B4F'},{ar:'ذهبي',en:'Sunny',hex:'#E0B23C'}];
+const FONTS = [{key:'rounded',ar:'دائري',en:'Rounded',fam:"'Baloo Bhaijaan 2',sans-serif"},{key:'playful',ar:'مرح',en:'Playful',fam:"'Fredoka','Baloo Bhaijaan 2',sans-serif"}];
+const SHAPES = [{key:'rect',ar:'مستطيل',en:'Rounded'},{key:'cloud',ar:'سحابة',en:'Cloud'},{key:'star',ar:'نجمة',en:'Star'},{key:'heart',ar:'قلب',en:'Heart'}];
+const INV = { dragon:{s:4,p:'M'}, trace:{s:2}, marble:{s:1}, map:{s:3}, dino:{s:0,p:'M'}, robot:{s:2,p:'L'}, bunny:{s:5,p:'M'}, sort:{s:3}, duck:{s:8}, solar:{s:1}, maze:{s:2}, shapes:{s:4}, spinner:{s:10}, popit:{s:2}, twist:{s:3}, xo:{s:2,p:'L'}, sign:{s:3,p:'L'}, bracelet:{s:6,p:'S'}, lantern:{s:5,p:'S'}, lantern2:{s:0,p:'M'} };
+const CITIES = [{key:'cairo',ar:'القاهرة',en:'Cairo'},{key:'giza',ar:'الجيزة',en:'Giza'},{key:'alex',ar:'الإسكندرية',en:'Alexandria'},{key:'mansoura',ar:'المنصورة',en:'Mansoura'},{key:'tanta',ar:'طنطا',en:'Tanta'},{key:'ismailia',ar:'الإسماعيلية',en:'Ismailia'},{key:'portsaid',ar:'بورسعيد',en:'Port Said'},{key:'assiut',ar:'أسيوط',en:'Assiut'},{key:'sohag',ar:'سوهاج',en:'Sohag'},{key:'luxor',ar:'الأقصر',en:'Luxor'}];
+const CATS = [
+  {key:'flexi',ar:'ألعاب فلكسي',en:'Flexi Toys',bg:'#D9E8DD',dAr:'تُطبع قطعة واحدة وتتحرك دون تجميع أو مسامير. مفاصل ناعمة، وحجم مناسب للأيدي الصغيرة.',dEn:'Printed as one piece and moves with no assembly or screws. Soft joints, sized for small hands.'},
+  {key:'fidget',ar:'فيدجت وحسية',en:'Fidget & Sensory',bg:'#F7EAC2',dAr:'قطع للتركيز والتهدئة — تدور وتتقلب وتُضغط دون صوت مزعج.',dEn:'Pieces for focus and calm — they spin, flip and squish without annoying noise.'},
+  {key:'learn',ar:'تعليمي ومونتيسوري',en:'Learning & Montessori',bg:'#D6E3F3',dAr:'لوحات تتبّع بالعربية، فرز ألوان، وألغاز تركيب — تعلّم باللعب.',dEn:'Arabic tracing boards, color sorting and puzzles — learning through play.'},
+  {key:'stem',ar:'STEM للتركيب',en:'STEM Kits',bg:'#E6DFF3',dAr:'مجموعات تُجمَّع باليد دون غراء، مع كتيّب شرح مبسّط بالعربية.',dEn:'Kits that snap together by hand with no glue, with a simple illustrated guide.'},
+  {key:'pers',ar:'مخصص بالاسم',en:'Personalized',bg:'#F6DBD4',dAr:'اكتب الاسم ونطبعه — لافتات، إسوارات، روبوتات وفوانيس بالعربية أو الإنجليزية.',dEn:'Type the name and we print it — signs, bracelets, robots and lanterns in Arabic or English.'},
+  {key:'org',ar:'تنظيم الغرفة',en:'Room Organizers',bg:'#DCEDEA',dAr:'حوامل أقلام ورفوف صغيرة بأشكال حيوانات — ليصبح الترتيب لعبة.',dEn:'Pencil cups and small shelves shaped like animals — so tidying up becomes a game.'},
+  {key:'table',ar:'ألعاب طاولة',en:'Tabletop Games',bg:'#EDE6D2',dAr:'ألعاب للعائلة كلها — قطع كبيرة وألوان واضحة.',dEn:'Games for the whole family — big pieces and clear colors.'},
+  {key:'season',ar:'هدايا رمضان',en:'Ramadan Gifts',bg:'#FBE3D0',dAr:'فوانيس صغيرة بالاسم وزينة — اطلب قبل أول رمضان لتصلك في موعدها.',dEn:'Mini lanterns with their name and decorations — order before the 1st of Ramadan to get them in time.'}
+];
+const PRODUCTS = [
+  {id:'dragon',ar:'تنين فلكسي «نار»',en:'Flexi Dragon',price:220,age:'3–5',cat:'flexi',pers:true,pop:1,img:'1764322695813-ec3ce0680bb6',dAr:'يُطبع قطعة واحدة بمفاصل متحركة دون تجميع. طوله 18 سم، حوافه ناعمة، يقف بمفرده ويتلوّى في كل الاتجاهات.',dEn:'Printed as a single piece with joints that move — no assembly. 18 cm long, smooth edges, stands on its own and wiggles in every direction.',sAr:'18 سم',sEn:'18 cm',wAr:'45 جم',wEn:'45 g'},
+  {id:'trace',ar:'لوحة تتبع الحروف العربية',en:'Arabic Tracing Board',price:350,age:'3–5',cat:'learn',pers:false,pop:2,img:'1759678444821-565ff103465c',dAr:'28 حرفاً محفورة بعمق مناسب لقلم خشبي، بترتيب الكتابة الصحيح ونقاط البداية.',dEn:'28 letters engraved at the right depth for a wooden stylus, in correct stroke order with starting dots.',sAr:'30×22 سم',sEn:'30×22 cm',wAr:'320 جم',wEn:'320 g'},
+  {id:'marble',ar:'مسار الكرات — المجموعة الأولى',en:'Marble Run Starter',price:480,age:'6–9',cat:'stem',pers:false,pop:3,img:'1772901337932-4ee4053eaecf',dAr:'32 قطعة تتركب معاً بأشكال مختلفة لمسارات لا نهائية، مع 6 كرات معدنية.',dEn:'32 pieces that snap together into endless track layouts, with 6 steel marbles.',sAr:'صندوق 30×20 سم',sEn:'Box 30×20 cm',wAr:'650 جم',wEn:'650 g'},
+  {id:'map',ar:'بازل خريطة مصر',en:'Egypt Map Puzzle',price:390,age:'6–9',cat:'learn',pers:false,pop:4,img:'1684773585761-fde68b4ece42',dAr:'27 محافظة، كل منها قطعة بلون مختلف واسمها محفور عليها، في إطار بلون الخشب.',dEn:'27 governorates, each a separate piece in its own color with the name engraved, in a wood-tone frame.',sAr:'34×30 سم',sEn:'34×30 cm',wAr:'420 جم',wEn:'420 g'},
+  {id:'dino',ar:'ديناصور فلكسي «تراي»',en:'Flexi Triceratops',price:200,age:'6–9',cat:'flexi',pers:true,pop:5,isNew:true,img:'1760446410459-65325b72ef59',dAr:'تريسيراتوبس بقرون ودرع متحرك، 16 مفصلاً، مطبوع بلون واحد ثابت لا يتقشر.',dEn:'A triceratops with horns and a moving frill, 16 joints, printed in one solid color that never peels.',sAr:'20 سم',sEn:'20 cm',wAr:'60 جم',wEn:'60 g'},
+  {id:'robot',ar:'روبوت للتركيب',en:'Snap Robot Kit',price:450,age:'6–9',cat:'stem',pers:true,pop:6,img:'1668626781268-8b988c940dc7',dAr:'24 قطعة تتركب دون غراء، بمفاصل متحركة في الذراعين والساقين. يمكن طباعة الاسم على الصدر.',dEn:'24 pieces that snap together without glue, with moving joints in the arms and legs. We can print the name on the chest.',sAr:'22 سم',sEn:'22 cm',wAr:'210 جم',wEn:'210 g'},
+  {id:'bunny',ar:'حامل أقلام أرنب',en:'Bunny Pencil Cup',price:150,age:'3–5',cat:'org',pers:true,pop:7,img:'1649778977937-12381ec8f8f4',dAr:'حامل أقلام على شكل أرنب بأذنين طويلتين — يوضع على المكتب أو الرف، ويمكن حفر الاسم على القاعدة.',dEn:'A bunny-shaped pencil cup with long ears — for the desk or shelf, with the name engraved on the base.',sAr:'12 سم',sEn:'12 cm',wAr:'80 جم',wEn:'80 g'},
+  {id:'sort',ar:'صينية فرز الألوان',en:'Color Sorting Tray',price:260,age:'3–5',cat:'learn',pers:false,pop:8,img:'1699612471041-883323e503d0',dAr:'صينية بـ 6 خانات ملوّنة و36 قطعة فرز — مونتيسوري بسيطة لتمييز الألوان والعدّ.',dEn:'A tray with 6 colored wells and 36 sorting pieces — simple Montessori for colors and counting.',sAr:'24×16 سم',sEn:'24×16 cm',wAr:'260 جم',wEn:'260 g'},
+  {id:'duck',ar:'بطة فلكسي للحمّام',en:'Flexi Bath Duck',price:120,age:'3–5',cat:'flexi',pers:false,pop:9,img:'1582845512747-e42001c95638',dAr:'بطة تطفو فعلاً، بلا فتحات تحتجز الماء. مناسبة لوقت الاستحمام.',dEn:'A duck that actually floats, with no holes to trap water. Perfect for bath time.',sAr:'9 سم',sEn:'9 cm',wAr:'30 جم',wEn:'30 g'},
+  {id:'solar',ar:'مجموعة النظام الشمسي',en:'Solar System Kit',price:420,age:'6–9',cat:'stem',pers:false,pop:10,img:'1661774464629-e952336a2f07',dAr:'الشمس و8 كواكب بأحجام نسبية وألوان حقيقية، مع حامل ودليل بالعربية.',dEn:'The sun and 8 planets at relative sizes in true colors, with a stand and an illustrated guide.',sAr:'أكبر كوكب 7 سم',sEn:'Largest planet 7 cm',wAr:'380 جم',wEn:'380 g'},
+  {id:'maze',ar:'متاهة الكرة الدائرية',en:'Ball Maze Puzzle',price:210,age:'10–13',cat:'fidget',pers:false,pop:11,isNew:true,img:'1784064857498-1c2396827f2b',dAr:'متاهة من 3 مستويات، أدرها وأمِلها لتوصل الكرة إلى المركز. تحدٍّ ممتاز للتركيز.',dEn:'A 3-level maze — tilt and turn to guide the ball to the center. A great focus challenge.',sAr:'قطر 14 سم',sEn:'Ø 14 cm',wAr:'120 جم',wEn:'120 g'},
+  {id:'shapes',ar:'طقم أشكال تعليمي',en:'Learning Shapes Set',price:300,age:'3–5',cat:'learn',pers:false,pop:12,img:'1545558014-8692077e9b5c',dAr:'أشكال هندسية بألوان أساسية تتركب معاً — للتعرف على الأشكال والمطابقة.',dEn:'Geometric shapes in primary colors that stack together — for learning shapes and matching.',sAr:'قطع 4–8 سم',sEn:'Pieces 4–8 cm',wAr:'300 جم',wEn:'300 g'},
+  {id:'spinner',ar:'سبينر فيدجت',en:'Fidget Spinner',price:90,age:'10–13',cat:'fidget',pers:false,pop:13,img:'1514435542839-ed9380d2e9f6',dAr:'يدور لأكثر من دقيقة بمحمل معدني، وجسم مطبوع بوزن متوازن. خفيف ومناسب للجيب.',dEn:'Spins for over a minute on a steel bearing, with a balanced printed body. Pocket-light.',sAr:'7.5 سم',sEn:'7.5 cm',wAr:'40 جم',wEn:'40 g'},
+  {id:'popit',ar:'بوب إت حسي',en:'Pop-it Sensory',price:110,age:'3–5',cat:'fidget',pers:false,pop:14,img:'1652755729972-02b96abc6426',dAr:'فقاعات مطاطية تُضغط وتعود — للتهدئة والتركيز، وتُغسل بسهولة.',dEn:'Rubbery bubbles that push in and pop back — calming, focusing, and easy to wash.',sAr:'12 سم',sEn:'12 cm',wAr:'50 جم',wEn:'50 g'},
+  {id:'twist',ar:'فيدجت ملوّن يتلوى',en:'Twisty Fidget',price:130,age:'10–13',cat:'fidget',pers:false,pop:15,isNew:true,img:'1699612471072-d1df964377cd',dAr:'سلسلة مفاصل ملوّنة تتشكّل كما تشاء — مكعب، كرة، ثعبان. صامت تماماً.',dEn:'A chain of colorful joints you shape however you like — cube, ball, snake. Completely silent.',sAr:'24 قطعة',sEn:'24 pieces',wAr:'65 جم',wEn:'65 g'},
+  {id:'xo',ar:'طقم إكس أو',en:'Tic-Tac-Toe Set',price:170,age:'6–9',cat:'table',pers:true,pop:16,img:'1773101883585-4e89e20c7321',dAr:'لوحة من 9 خانات و10 قطع X وO بلونين، في علبة تُغلق. يمكن حفر الاسم على اللوحة.',dEn:'A 9-square board with 10 X and O pieces in two colors, in a box that closes. We can engrave the name on the board.',sAr:'15×15 سم',sEn:'15×15 cm',wAr:'180 جم',wEn:'180 g'},
+  {id:'sign',ar:'لافتة اسم للباب',en:'Name Door Sign',price:180,age:'all',cat:'pers',pers:true,pop:17,img:'1622617760286-e11b543f5ab7',dAr:'حروف بارزة على قاعدة بلون مختلف، تُعلَّق بشريط لاصق قوي أو مسمارين. بالعربية أو الإنجليزية.',dEn:'Raised letters on a contrasting base, hung with strong adhesive strips or two nails. Arabic or English.',sAr:'ارتفاع 10 سم',sEn:'Height 10 cm',wAr:'~120 جم',wEn:'~120 g'},
+  {id:'bracelet',ar:'إسوارة خرز بالاسم',en:'Name Bead Bracelet',price:95,age:'6–9',cat:'pers',pers:true,pop:18,img:'1663730373311-b4dc7523e00a',dAr:'خرز ملوّن وحروف مطبوعة على مطاط قوي — اختر الألوان والاسم.',dEn:'Colorful beads and printed letters on a strong elastic — pick the colors and the name.',sAr:'مقاس قابل للتمدد',sEn:'Stretch fit',wAr:'15 جم',wEn:'15 g'},
+  {id:'lantern',ar:'فانوس رمضان صغير',en:'Mini Ramadan Lantern',price:130,age:'all',cat:'season',pers:true,pop:19,img:'1577214407836-1f3a0604ecb2',dAr:'فانوس مزخرف بشبك يمرّر الضوء، مع مصباح LED صغير آمن يعمل بزر. الاسم محفور على القاعدة.',dEn:'A patterned lantern with a light-passing lattice and a small, safe push-button LED. Name engraved on the base.',sAr:'14 سم',sEn:'14 cm',wAr:'90 جم',wEn:'90 g'},
+  {id:'lantern2',ar:'فانوس مضيء بالاسم',en:'Lit Name Lantern',price:190,age:'all',cat:'season',pers:true,pop:20,isNew:true,img:'1649200893528-972b2b6b942b',dAr:'الاسم مفرّغ في جسم الفانوس فيرسمه الضوء على الحائط. LED بشاحن USB.',dEn:'The name is cut out of the lantern body so the light draws it on the wall. USB-rechargeable LED.',sAr:'18 سم',sEn:'18 cm',wAr:'140 جم',wEn:'140 g'}
+];
+const T = {
+  ar: {
+    banner:'وصلت هدايا رمضان — فوانيس صغيرة بالاسم · اطلب قبل أول رمضان لتصلك في موعدها', navCats:'الأقسام', navAge:'حسب العمر', navPers:'خصّصها بالاسم', navNew:'الجديد', navSeason:'هدايا رمضان', search:'ابحث عن لعبة…', searchBtn:'بحث', langBtn:'EN', langTitle:'Switch to English', cart:'السلة', cur:'ج.م',
+    heroTag:'مطبوع في مصر · خامة PLA آمنة للأطفال', heroH:'ألعاب مطبوعة ثلاثية الأبعاد، مصمّمة لأيدٍ صغيرة', heroP:'قطع فلكسي متحركة، لوحات مونتيسوري بالعربية، ولوحة اسم تُركَّب على الهدية — متوفرة في المخزون ومغلّفة وجاهزة للإهداء.', ctaAge:'تسوّق حسب العمر', ctaPers:'خصّص هدية بالاسم',
+    ageH:'تسوّق حسب العمر', allProducts:'كل المنتجات', age35T:'حواس وحركة', age35D:'قطع فلكسي كبيرة، لوحات تتبّع، بدون أجزاء صغيرة', age69T:'بناء واستكشاف', age69D:'كيتات STEM، بازل خريطة مصر، ألعاب طاولة', age1013T:'تحدي وتركيز', age1013D:'فيدجت، متاهات، ألغاز ميكانيكية',
+    catsH:'الأقسام', bestH:'الأكثر طلباً', add:'أضف', persTag:'بالاسم', new:'جديد', persH:'اكتب الاسم… ونحن نطبعه', persP:'لوحة اسم تُطبع في دقائق وتُركَّب على الهدية — بالعربية أو الإنجليزية، دون انتظار طباعة المنتج.', persPh:'اكتب اسم طفلك', persBtn:'عرض المنتجات', persPrev:'معاينة لافتة الباب', nameFallback:'اسم طفلك',
+    whyH:'نطبعها في ورشتنا بالقاهرة', why1T:'خامة PLA نباتية', why1D:'مشتقة من النشا، بلا روائح أو مواد ضارة، وألوانها ثابتة.', why2T:'متوفرة وجاهزة للشحن', why2D:'المنتجات الأكثر طلباً متوفرة في المخزون وتُشحن خلال 24 ساعة، والباقي يُطبع عند الطلب خلال 2–3 أيام.', why3T:'مناسبة للعمر', why3D:'كل منتج موضّح عليه العمر المناسب، ولا توجد قطع صغيرة في منتجات 3–5 سنوات.',
+    bcHome:'الرئيسية', products:'منتج', fAge:'العمر', fPers:'قابل للتخصيص بالاسم', fSort:'ترتيب', sortPop:'الأكثر طلباً', sortNew:'الأحدث', sortAsc:'السعر: من الأقل', sortDesc:'السعر: من الأعلى', clear:'مسح الفلاتر', emptyT:'لا توجد منتجات بهذه الاختيارات', emptyD:'جرّب إزالة فلتر أو البحث بكلمة أخرى',
+    catAll:'كل المنتجات', catAllD:'كل ما نطبعه — من 3 إلى 13 سنة، وكل منتج موضّح عليه العمر المناسب.', catNew:'الجديد', catNewD:'وصل هذا الأسبوع من الورشة.', searchRes:'نتائج البحث: ', found:'وجدنا ', noRes:'لا توجد نتائج — جرّب كلمة أخرى مثل «فلكسي» أو «بالاسم»', ageSuffix:' سنوات', agePrefix:'',
+    inclTax:'شامل الضريبة', persFeeNote:'· لوحة الاسم', color:'اللون:', addName:'لوحة اسم تُركَّب على المنتج (اختياري)', namePh:'اكتب الاسم بالعربية أو الإنجليزية', nameHint:'تُطبع في دقائق وتُركَّب على المنتج · اترك الخانة فارغة إن لم ترغب في اسم', fav:'المفضلة',
+    availIn:'متوفر — يُشحن خلال 24 ساعة', availOut:'يُطبع عند الطلب — يجهز خلال 2–3 أيام', leadIn:'كل طلبك متوفر — يُشحن خلال 24 ساعة', leadOut:'يحتوي طلبك على قطعة تُطبع عند الطلب — يجهز خلال 2–3 أيام',
+    bullet1:'يُطبع عند الطلب ويجهز خلال 2–3 أيام', bullet2:'شحن 50 ج.م داخل القاهرة والجيزة · 70 ج.م لباقي المحافظات', bullet3:'تغليف هدية مجاني — اكتب رسالتك عند إتمام الطلب',
+    specs:'المواصفات', specMat:'الخامة: PLA نباتية', specSize:'المقاس:', specWeight:'الوزن:', specAge:'العمر:', relatedH:'قد يعجبك أيضاً', addedBtn:'أُضيفت ✓ — عرض السلة', addToCart:'أضف للسلة — ', ws1:'من الورشة — الطباعة', ws2:'من الورشة — خط الإنتاج',
+    items:'قطع', cartEmptyT:'السلة فارغة', cartEmptyD:'ابدأ من الأكثر طلباً أو تسوّق حسب العمر', shopNow:'تسوّق الآن', remove:'حذف', persReturn:'المنتجات المخصصة بالاسم تُطبع خصيصاً لك، لذا لا يمكن إرجاعها إلا في حالة وجود عيب صناعة.', noName:'بدون اسم', nameLbl:'الاسم: ',
+    summary:'ملخص الطلب', subtotal:'المجموع الفرعي', promoLine:'خصم HELLO10', shipping:'الشحن', giftWrap:'تغليف هدية', free:'مجاني', none:'بدون', promoPh:'كود خصم', apply:'تطبيق', promoHint:'للتجربة: HELLO10', total:'الإجمالي', checkout:'إتمام الطلب', cartNote:'المتوفر يُشحن خلال 24 ساعة، وما يُطبع عند الطلب يجهز خلال 2–3 أيام.', freeShipIn:'أضف ', freeShipOut:' إضافية ليصبح الشحن مجانياً',
+    secure:'دفع مشفّر وآمن ·', backCart:'العودة إلى السلة', contactH:'بيانات التواصل', namePhF:'الاسم بالكامل', emailPh:'البريد الإلكتروني (اختياري — لإرسال الفاتورة)', addrH:'عنوان التوصيل', gov:'المحافظة', areaPh:'المنطقة / الحي', streetPh:'الشارع، رقم العمارة، الدور، الشقة', notePh:'علامة مميزة أو ملاحظة للمندوب (اختياري)',
+    shipH:'طريقة الشحن', shipStd:'توصيل عادي', shipStdSub:'يصل خلال 3–5 أيام من التجهيز', shipExp:'توصيل سريع', shipExpSub:'خلال 24–48 ساعة من التجهيز', shipExpNo:'متاح للقاهرة والجيزة فقط',
+    payH:'الدفع', payCard:'بطاقة بنكية', payWallet:'محفظة إلكترونية', payFawry:'فوري', payCod:'الدفع عند الاستلام', fawrySub:'كود دفع صالح 24 ساعة', codSub:'+15 ج.م رسوم تحصيل', cardPh:'رقم البطاقة', payBtn:'ادفع ', confirmBtn:'أكّد الطلب — ', paying:'جاري تأكيد الطلب…', terms:'بالضغط على «ادفع» فإنك توافق على شروط الطلبات المخصصة وسياسة الإرجاع. (نموذج تجريبي — لا يوجد دفع حقيقي)',
+    yourOrder:'طلبك', arrives:'الشحن · يصل', codFee:'رسوم تحصيل', giftMsgH:'رسالة الهدية (تُطبع على بطاقة داخل العلبة)', giftMsgPh:'مثلاً: كل عام وأنتِ بخير يا فريدة',
+    doneH:'تم استلام طلبك', doneP1:'رقم الطلب', doneP2:'— سنرسل لك تأكيداً عبر واتساب على', doneP3:'فور بدء الطباعة.', payMethod:'طريقة الدفع', deliverTo:'التوصيل إلى', step1:'1 · الطباعة', step1D:'خلال 2–3 أيام', step2:'2 · الشحن', step2D:'رسالة برقم التتبع', step3:'3 · التوصيل المتوقع', backHome:'العودة إلى الرئيسية', track:'تتبع الطلب',
+    footAbout:'ألعاب وهدايا مطبوعة ثلاثية الأبعاد للأطفال من 3 إلى 13 سنة. مطبوعة بحب في القاهرة.', footCats:'الأقسام', footHelp:'المساعدة', help1:'الشحن والإرجاع', help2:'الأمان والخامات', help3:'دليل الأعمار', help4:'تواصل معنا', newsH:'منتجات جديدة كل أسبوع', emailPh2:'بريدك الإلكتروني', subscribe:'اشترك', viewCart:'عرض السلة',
+    tAdded:'أُضيفت إلى السلة', tPromoOk:'تم تطبيق خصم 10%', tPromoBad:'الكود غير صحيح — جرّب HELLO10', tFill:'أكمل البيانات الناقصة أولاً', tSub:'تم الاشتراك — أول نشرة الأسبوع القادم', tTrack:'سيصلك رابط التتبع عبر واتساب فور شحن الطلب',
+    eName:'اكتب الاسم بالكامل', ePhone:'رقم هاتف مصري من 11 رقماً', eArea:'اكتب المنطقة', eStreet:'اكتب العنوان بالتفصيل', eCnum:'رقم البطاقة 16 رقم', eCexp:'بالشكل MM/YY', eCcvv:'3 أرقام'
+  },
+  en: {
+    banner:'Ramadan gifts are here — mini lanterns with their name · order before the 1st of Ramadan to get them in time', navCats:'Shop', navAge:'By age', navPers:'Personalize', navNew:'New', navSeason:'Ramadan gifts', search:'Search toys…', searchBtn:'Search', langBtn:'ع', langTitle:'التحويل إلى العربية', cart:'Cart', cur:'EGP',
+    heroTag:'Printed in Egypt · kid-safe PLA', heroH:'3D-printed toys, designed for little hands', heroP:'Flexi creatures that wiggle, Arabic Montessori boards, and a name plate that snaps onto the gift — in stock and gift-wrapped.', ctaAge:'Shop by age', ctaPers:'Personalize a gift',
+    ageH:'Shop by age', allProducts:'All products', age35T:'Senses & motion', age35D:'Big flexi toys, tracing boards, no small parts', age69T:'Build & explore', age69D:'STEM kits, Egypt map puzzle, tabletop games', age1013T:'Challenge & focus', age1013D:'Fidgets, mazes, mechanical puzzles',
+    catsH:'Categories', bestH:'Best sellers', add:'Add', persTag:'Personalized', new:'New', persH:'Type their name… we print it', persP:'A name plate printed in minutes and attached to the gift — Arabic or English, no waiting for the product to print.', persPh:"Your child's name", persBtn:'See products', persPrev:'Door sign preview', nameFallback:'Their name',
+    whyH:'Printed in our Cairo workshop', why1T:'Plant-based PLA', why1D:'Made from starch — no odors, no harmful substances, and colors that stay.', why2T:'In stock, ready to ship', why2D:'Best sellers are kept in stock and ship within 24 h; the rest is printed to order in 2–3 days.', why3T:'Age-appropriate', why3D:'Every product shows its age range, and nothing for ages 3–5 has small parts.',
+    bcHome:'Home', products:'products', fAge:'Age', fPers:'Personalizable', fSort:'Sort', sortPop:'Best selling', sortNew:'Newest', sortAsc:'Price: low to high', sortDesc:'Price: high to low', clear:'Clear filters', emptyT:'Nothing matches these filters', emptyD:'Try removing a filter or searching again',
+    catAll:'All products', catAllD:'Everything we print — for ages 3 to 13, each with its age range.', catNew:'New arrivals', catNewD:'Fresh from the workshop this week.', searchRes:'Results for: ', found:'Found ', noRes:'No results — try another word like "flexi" or "name"', ageSuffix:'', agePrefix:'Ages ',
+    inclTax:'incl. VAT', persFeeNote:'· name plate', color:'Color:', addName:'Name plate attached to the product (optional)', namePh:'Arabic or English', nameHint:'Printed in minutes and attached to the product · leave empty for no name', fav:'Favorites',
+    availIn:'In stock — ships within 24 h', availOut:'Printed to order — ready in 2–3 days', leadIn:'Everything in your order is in stock — ships within 24 h', leadOut:'One item is printed to order — your order will be ready in 2–3 days',
+    bullet1:'Printed to order, ready in 2–3 days', bullet2:'Shipping 50 EGP in Cairo & Giza · 70 EGP elsewhere', bullet3:'Free gift wrap — add your message at checkout',
+    specs:'Specs', specMat:'Material: plant-based PLA', specSize:'Size:', specWeight:'Weight:', specAge:'Age:', relatedH:'You might also like', addedBtn:'Added ✓ — view cart', addToCart:'Add to cart — ', ws1:'From the workshop — printing', ws2:'From the workshop — production line',
+    items:'items', cartEmptyT:'Your cart is empty', cartEmptyD:'Start with the best sellers or shop by age', shopNow:'Shop now', remove:'Remove', persReturn:'Personalized items are made just for you, so they can only be returned for manufacturing defects.', noName:'No name', nameLbl:'Name: ',
+    summary:'Order summary', subtotal:'Subtotal', promoLine:'HELLO10 discount', shipping:'Shipping', giftWrap:'Gift wrap', free:'Free', none:'No', promoPh:'Promo code', apply:'Apply', promoHint:'Try: HELLO10', total:'Total', checkout:'Checkout', cartNote:'In-stock items ship within 24 h; printed-to-order items are ready in 2–3 days.', freeShipIn:'Add ', freeShipOut:' more for free shipping',
+    secure:'Secure encrypted payment ·', backCart:'Back to cart', contactH:'Contact', namePhF:'Full name', emailPh:'Email (optional — for the receipt)', addrH:'Delivery address', gov:'Governorate', areaPh:'Area / district', streetPh:'Street, building, floor, apartment', notePh:'Landmark or note for the courier (optional)',
+    shipH:'Shipping method', shipStd:'Standard', shipStdSub:'3–5 days after printing', shipExp:'Express', shipExpSub:'24–48 h after printing', shipExpNo:'Cairo & Giza only',
+    payH:'Payment', payCard:'Card', payWallet:'Mobile wallet', payFawry:'Fawry', payCod:'Cash on delivery', fawrySub:'Payment code valid 24 h', codSub:'+15 EGP collection fee', cardPh:'Card number', payBtn:'Pay ', confirmBtn:'Confirm order — ', paying:'Confirming your order…', terms:'By pressing "Pay" you agree to the custom-order terms and return policy. (Demo — no real payment)',
+    yourOrder:'Your order', arrives:'Shipping · arrives', codFee:'Collection fee', giftMsgH:'Gift message (printed on a card inside the box)', giftMsgPh:'e.g. Happy birthday, Farida!',
+    doneH:'Order received', doneP1:'Order number', doneP2:"— we'll WhatsApp a confirmation to", doneP3:'as soon as printing starts.', payMethod:'Payment method', deliverTo:'Deliver to', step1:'1 · Printing', step1D:'Within 2–3 days', step2:'2 · Shipping', step2D:'Tracking number by message', step3:'3 · Estimated delivery', backHome:'Back to home', track:'Track order',
+    footAbout:'3D-printed toys and gifts for kids aged 3–13. Printed with love in Cairo.', footCats:'Shop', footHelp:'Help', help1:'Shipping & returns', help2:'Safety & materials', help3:'Age guide', help4:'Contact us', newsH:'New products every week', emailPh2:'Your email', subscribe:'Subscribe', viewCart:'View cart',
+    tAdded:'Added to cart', tPromoOk:'10% discount applied', tPromoBad:'Invalid code — try HELLO10', tFill:'Please fill in the missing details', tSub:'Subscribed — first newsletter next week', tTrack:"We'll WhatsApp you a tracking link once it ships",
+    eName:'Enter your full name', ePhone:'Egyptian mobile number, 11 digits', eArea:'Enter your area', eStreet:'Enter the full address', eCnum:'16-digit card number', eCexp:'Use MM/YY', eCcvv:'3 digits'
+  }
+};
+Object.assign(T.ar, { expand:'كبّر المعاينة', studioTitle:'معاينة الاسم على المنتج', plateColor:'لون اللوحة', textColor:'لون الحروف', fontLbl:'الخط', shapeLbl:'شكل اللوحة', studioH:'جرّب الاسم على اللعبة', studioSub:'اسحب لتدوير اللعبة 360° وكبّر لترى التفاصيل', close:'إغلاق', studioNote:'المعاينة تقريبية — الألوان النهائية حسب الخامة المتوفرة' });
+Object.assign(T.en, { expand:'Expand preview', studioTitle:'Name preview on the product', plateColor:'Plate color', textColor:'Letter color', fontLbl:'Font', shapeLbl:'Plate shape', studioH:'Try the name on the toy', studioSub:'Drag to spin 360° and zoom in for details', close:'Close', studioNote:'Preview is approximate — final colors depend on the filament in stock' });
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const ageLabel = a => a === 'all' ? '3+' : a.split('–')[0] + '+';
+const matchCat = (p, key) => key === 'all' ? true : key === 'pers' ? p.pers : key === 'new' ? !!p.isNew : p.cat === key;
+const HOME = { page: 'home', cat: 'all', pid: null, q: '' };
+const LS = 'mf-store-v1';
+
+class Component extends DCLogic {
+  state = {
+    route: HOME, cart: [], pName: 'فريدة', lang: null, showAlt: true, favs: [], q: '',
+    pPlate: null, pText: 0, pFont: 'rounded', pShape: 'rect', studioOpen: false,
+    ages: [], persOnly: false, sort: 'pop',
+    color: 0, qty: 1, gal: 0, justAdded: false,
+    gift: true, giftMsg: '', promo: '', promoApplied: '',
+    form: { name: '', phone: '', email: '', city: 'cairo', area: '', street: '', note: '' },
+    card: { num: '', exp: '', cvv: '' }, shipMethod: 'std', pay: 'card', errors: {}, paying: false, order: null, toast: null
+  };
+  componentDidMount() {
+    this._onMsg = e => { if (e.data && e.data.type === 'mf-studio-ready' && this._studioMsg && e.source) { try { e.source.postMessage(this._studioMsg, '*'); } catch (err) {} } };
+    this._onKey = e => { if (e.key === 'Escape' && this.state.studioOpen) this.setState({ studioOpen: false }); };
+    window.addEventListener('message', this._onMsg); window.addEventListener('keydown', this._onKey);
+    try {
+      const s = JSON.parse(localStorage.getItem(LS) || 'null');
+      if (s) {
+        let route = s.route || HOME;
+        if (route.page === 'done' || (route.page === 'pdp' && !PRODUCTS.some(p => p.id === route.pid))) route = HOME;
+        if (route.page === 'checkout' && !(s.cart || []).length) route = { ...route, page: 'cart' };
+        this.setState({ cart: s.cart || [], route, pName: s.pName ?? this.state.pName, favs: s.favs || [], gift: s.gift ?? true, lang: s.lang ?? null, pPlate: s.pPlate ?? null, pText: s.pText ?? 0, pFont: s.pFont || 'rounded', pShape: s.pShape || 'rect' });
+      }
+    } catch (e) {}
+  }
+  componentDidUpdate() {
+    const S = this.state, prev = this._saved || {};
+    if (S.cart !== prev.cart || S.route !== prev.route || S.pName !== prev.pName || S.favs !== prev.favs || S.gift !== prev.gift || S.lang !== prev.lang || S.pPlate !== prev.pPlate || S.pText !== prev.pText || S.pFont !== prev.pFont || S.pShape !== prev.pShape) {
+      this._saved = { cart: S.cart, route: S.route, pName: S.pName, favs: S.favs, gift: S.gift, lang: S.lang, pPlate: S.pPlate, pText: S.pText, pFont: S.pFont, pShape: S.pShape };
+      try { localStorage.setItem(LS, JSON.stringify(this._saved)); } catch (e) {}
+    }
+    const m = this._studioMsg;
+    if (m) { const js = JSON.stringify(m); if (js !== this._studioSent) { this._studioSent = js; document.querySelectorAll('iframe[data-mf-studio]').forEach(f => { try { f.contentWindow.postMessage(m, '*'); } catch (e) {} }); } }
+  }
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._pay); window.removeEventListener('message', this._onMsg); window.removeEventListener('keydown', this._onKey); }
+  go(page, extra = {}) {
+    const route = { page, cat: 'all', pid: null, q: '', ...extra };
+    this.setState({ route, color: 0, qty: 1, gal: 0, justAdded: false, studioOpen: false, errors: {}, ...(page === 'cat' ? { ages: extra.age ? [extra.age] : [], persOnly: false } : {}) });
+    window.scrollTo(0, 0);
+  }
+  toast(msg, action) {
+    clearTimeout(this._t);
+    this.setState({ toast: { msg, action: !!action } });
+    this._t = setTimeout(() => this.setState({ toast: null }), 2800);
+  }
+  add(pid, color, name, qty, msg, plate) {
+    const key = pid + '|' + color + '|' + name + (name && plate ? '|' + plate.sig : '');
+    this.setState(s => {
+      const cart = s.cart.slice(), i = cart.findIndex(l => l.key === key);
+      if (i >= 0) cart[i] = { ...cart[i], qty: cart[i].qty + qty }; else cart.push({ key, pid, color, name, qty, plate: name && plate ? plate : null });
+      return { cart };
+    });
+    this.toast(msg, true);
+  }
+  qtyLine(key, d) { this.setState(s => ({ cart: s.cart.map(l => l.key === key ? { ...l, qty: Math.max(1, l.qty + d) } : l) })); }
+  validate(t) {
+    const f = this.state.form, e = {};
+    if (f.name.trim().length < 2) e.name = t.eName;
+    if (!/^01[0-9]{9}$/.test(f.phone.replace(/[\s-]/g, ''))) e.phone = t.ePhone;
+    if (!f.area.trim()) e.area = t.eArea;
+    if (!f.street.trim()) e.street = t.eStreet;
+    if (this.state.pay === 'card') {
+      const c = this.state.card;
+      if (c.num.replace(/\s/g, '').length < 16) e.cnum = t.eCnum;
+      if (!/^\d{2}\/\d{2}$/.test(c.exp)) e.cexp = t.eCexp;
+      if (!/^\d{3}$/.test(c.cvv)) e.ccvv = t.eCcvv;
+    }
+    return e;
+  }
+  renderVals() {
+    const S = this.state, P = this.props, R = S.route;
+    const L = S.lang ?? P.defaultLanguage ?? 'en', ar = L === 'ar', t = T[L];
+    const pick = (o, a, b) => ar ? o[a] : o[b];
+    const showAlt = S.showAlt && (P.showBothNames ?? true);
+    const persFee = P.personalizationFee ?? 40, freeOver = P.freeShippingOver ?? 0;
+    const catOf = k => CATS.find(c => c.key === k);
+    const deco = p => ({ ...p, imgId: p.img, inStock: ((INV[p.id] || {}).s || 0) > 0, plate: (INV[p.id] || {}).p || null, availStr: ((INV[p.id] || {}).s || 0) > 0 ? t.availIn : t.availOut, availColor: ((INV[p.id] || {}).s || 0) > 0 ? '#2F6B4F' : '#A64E31', name: pick(p, 'ar', 'en'), alt: pick(p, 'en', 'ar'), desc: pick(p, 'dAr', 'dEn'), size: pick(p, 'sAr', 'sEn'), weight: pick(p, 'wAr', 'wEn'), ageLabel: ageLabel(p.age), priceStr: fmt(p.price), img: IMG(p.img, 700), catName: pick(catOf(p.cat), 'ar', 'en'), open: () => this.go('pdp', { pid: p.id, cat: p.cat }), add: () => this.add(p.id, 0, '', 1, t.tAdded) });
+    const all = PRODUCTS.map(deco);
+    const byPop = all.slice().sort((a, b) => a.pop - b.pop);
+    const hero = all[0];
+
+    const key = R.cat || 'all', q = (R.q || '').trim(), cat = catOf(key);
+    let base = all.filter(p => matchCat(p, key));
+    if (q) { const ql = q.toLowerCase(); base = base.filter(p => p.ar.includes(q) || p.en.toLowerCase().includes(ql) || p.catName.toLowerCase().includes(ql) || p.desc.toLowerCase().includes(ql)); }
+    const list = base.filter(p => (!S.ages.length || p.age === 'all' || S.ages.includes(p.age)) && (!S.persOnly || p.pers))
+      .sort((a, b) => S.sort === 'asc' ? a.price - b.price : S.sort === 'desc' ? b.price - a.price : S.sort === 'new' ? ((b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)) || (a.pop - b.pop) : a.pop - b.pop);
+    const ageOpts = AGES.map(a => ({ label: t.agePrefix + a + t.ageSuffix, on: S.ages.includes(a), count: base.filter(p => p.age === a || p.age === 'all').length, toggle: () => this.setState(s => ({ ages: s.ages.includes(a) ? s.ages.filter(x => x !== a) : [...s.ages, a] })) }));
+    const sortOpts = [['pop', t.sortPop], ['new', t.sortNew], ['asc', t.sortAsc], ['desc', t.sortDesc]].map(([k, label]) => { const on = S.sort === k; return { label, border: on ? '#26262B' : '#E7E3DB', bg: on ? '#26262B' : '#fff', fg: on ? '#fff' : '#26262B', pick: () => this.setState({ sort: k }) }; });
+
+    const pr = R.pid ? all.find(p => p.id === R.pid) : null;
+    const gallery = pr ? [{ src: IMG(pr.imgId, 1100), thumb: IMG(pr.imgId, 240), label: pr.name }, { src: IMG(WS[0], 1100), thumb: IMG(WS[0], 240), label: t.ws1 }, { src: IMG(WS[1], 1100), thumb: IMG(WS[1], 240), label: t.ws2 }] : [];
+    const gi = Math.min(S.gal, Math.max(0, gallery.length - 1));
+    const PL = pr && pr.plate ? PLATES[pr.plate] : null;
+    const nameMax = PL ? PL.max : 12;
+    const nm = S.pName.trim().slice(0, nameMax);
+    const plateInfo = PL ? (ar ? 'لوحة ' + PL.ar + ' · حتى ' + PL.max + ' حرف' : PL.en + ' plate · up to ' + PL.max + ' characters') : '';
+    const persOn = !!(pr && pr.pers && nm);
+    const plateIdx = S.pPlate ?? S.color, plateC = PLATE_COLORS[plateIdx] || PLATE_COLORS[0], textC = TEXT_COLORS[S.pText] || TEXT_COLORS[0];
+    const plateOpt = { hex: plateC.hex, text: textC.hex, font: S.pFont, shape: S.pShape, sig: plateIdx + ':' + S.pText + ':' + S.pFont + ':' + S.pShape };
+    if (pr && pr.pers) this._studioMsg = { type: 'mf-plate', name: nm || t.nameFallback, plate: plateC.hex, text: textC.hex, font: S.pFont, shape: S.pShape, body: COLORS[S.color].hex, product: pr.id, lang: L };
+    const unit = pr ? pr.price + (persOn ? persFee : 0) : 0;
+
+    const lines = S.cart.map(l => {
+      const p = all.find(x => x.id === l.pid), u = p.price + (l.name ? persFee : 0);
+      return { key: l.key, qty: l.qty, name: p.name, img: IMG(p.imgId, 240), open: p.open, unit: u, inStock: p.inStock, line: fmt(u * l.qty), note: pick(COLORS[l.color], 'ar', 'en') + ' · ' + (l.name ? t.nameLbl + l.name + (l.plate ? ' · ' + pick(SHAPES.find(s => s.key === l.plate.shape) || SHAPES[0], 'ar', 'en') : '') : t.noName), inc: () => this.qtyLine(l.key, 1), dec: () => this.qtyLine(l.key, -1), remove: () => this.setState(s => ({ cart: s.cart.filter(x => x.key !== l.key) })) };
+    });
+    const count = lines.reduce((s, l) => s + l.qty, 0), subtotal = lines.reduce((s, l) => s + l.unit * l.qty, 0);
+    const discount = S.promoApplied ? Math.round(subtotal * .1) : 0;
+    const city = CITIES.find(c => c.key === S.form.city) || CITIES[0];
+    const cairo = city.key === 'cairo' || city.key === 'giza';
+    const shipKey = S.shipMethod === 'exp' && !cairo ? 'std' : S.shipMethod;
+    const freeShip = freeOver > 0 && subtotal >= freeOver;
+    const ship = !lines.length ? 0 : freeShip ? 0 : shipKey === 'exp' ? 90 : cairo ? 50 : 70;
+    const cod = S.pay === 'cod' ? 15 : 0;
+    const total = subtotal - discount + ship, payTotal = total + cod;
+    const money = n => fmt(n) + ' ' + t.cur;
+    const shipOpts = [
+      { key: 'std', name: t.shipStd, sub: t.shipStdSub, price: cairo ? 50 : 70, dis: false },
+      { key: 'exp', name: t.shipExp, sub: cairo ? t.shipExpSub : t.shipExpNo, price: 90, dis: !cairo }
+    ].map(o => { const on = shipKey === o.key; return { ...o, priceStr: freeShip && on ? t.free : money(o.price), border: on ? '2px solid #26262B' : '1px solid #E7E3DB', dot: on ? '6px solid #26262B' : '1px solid #C9C4BA', op: o.dis ? .45 : 1, pick: () => { if (!o.dis) this.setState({ shipMethod: o.key }); } }; });
+    const payOpts = [
+      { key: 'card', name: t.payCard, sub: 'Visa · Mastercard · Meeza' },
+      { key: 'wallet', name: t.payWallet, sub: 'Vodafone Cash · InstaPay' },
+      { key: 'fawry', name: t.payFawry, sub: t.fawrySub },
+      { key: 'cod', name: t.payCod, sub: t.codSub }
+    ].map(o => { const on = S.pay === o.key; return { ...o, border: on ? '2px solid #26262B' : '1px solid #E7E3DB', dot: on ? '6px solid #26262B' : '1px solid #C9C4BA', pick: () => this.setState({ pay: o.key, errors: {} }) }; });
+    const cities = CITIES.map(c => { const on = c.key === city.key; return { label: pick(c, 'ar', 'en'), border: on ? '#26262B' : '#E7E3DB', bg: on ? '#26262B' : '#fff', fg: on ? '#fff' : '#26262B', pick: () => this.setState(s => ({ form: { ...s.form, city: c.key } })) }; });
+    const fd = d => d.toLocaleDateString(ar ? 'ar-EG-u-nu-latn' : 'en-GB', { day: 'numeric', month: 'long' });
+    const fast = shipKey === 'exp';
+    const allStock = lines.length > 0 && lines.every(l => l.inStock);
+    const lead = allStock ? 1 : 3;
+    const eta = fd(new Date(Date.now() + (lead + (fast ? 1 : 2)) * 864e5)) + ' – ' + fd(new Date(Date.now() + (lead + (fast ? 2 : 5)) * 864e5));
+    const fld = k => { const err = S.errors[k] || ''; return { val: S.form[k], set: e => { const v = e.target.value; this.setState(s => ({ form: { ...s.form, [k]: v } })); }, err, has: !!err, border: err ? '1px solid #C0392B' : '1px solid #E7E3DB' }; };
+    const cfld = k => { const err = S.errors['c' + k] || ''; return { val: S.card[k], set: e => { const v = e.target.value; this.setState(s => ({ card: { ...s.card, [k]: v } })); }, err, has: !!err, border: err ? '1px solid #C0392B' : '1px solid #E7E3DB' }; };
+    const o = S.order || {};
+    const go = (page, extra) => () => this.go(page, extra);
+    const freeShipNote = freeOver > 0 && !freeShip && lines.length ? t.freeShipIn + money(freeOver - subtotal) + t.freeShipOut : '';
+
+    return {
+      t, lang: L, dir: ar ? 'rtl' : 'ltr', altDir: ar ? 'ltr' : 'rtl', numAlign: ar ? 'right' : 'left',
+      prAvail: pr ? pr.availStr : '', prAvailColor: pr && pr.inStock ? '#2F6B4F' : '#A64E31', availBullet: pr ? pr.availStr : '', plateInfo, nameMax, plateFont: PL ? PL.font : '18px', plateHex: COLORS[S.color].hex, leadNote: lines.length ? (allStock ? t.leadIn : t.leadOut) : '',
+      seasonal: P.seasonalBanner ?? true, showAlt,
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }),
+      goHome: go('home'), goCats: go('cat', { cat: 'all' }), goAge: go('cat', { cat: 'all' }), goPers: go('cat', { cat: 'pers' }), goNew: go('cat', { cat: 'new' }), goSeason: go('cat', { cat: 'season' }), goCart: go('cart'), goCheckout: go('checkout'),
+      goAge35: go('cat', { cat: 'all', age: '3–5' }), goAge69: go('cat', { cat: 'all', age: '6–9' }), goAge1013: go('cat', { cat: 'all', age: '10–13' }), openDragon: go('pdp', { pid: hero.id, cat: hero.cat }),
+      heroName: hero.name, heroMeta: money(hero.price) + ' · ' + hero.ageLabel,
+      q: S.q, setQ: e => this.setState({ q: e.target.value }), submitSearch: e => { e.preventDefault(); this.go('cat', { cat: 'all', q: S.q }); },
+      count, subscribe: () => this.toast(t.tSub),
+      isHome: R.page === 'home', isCat: R.page === 'cat', isPdp: R.page === 'pdp' && !!pr, isCart: R.page === 'cart', isCheckout: R.page === 'checkout', isDone: R.page === 'done',
+      cats: CATS.map(c => ({ ...c, name: pick(c, 'ar', 'en'), count: all.filter(p => matchCat(p, c.key)).length, open: () => this.go('cat', { cat: c.key }) })),
+      best: byPop.slice(0, 8),
+      pName: S.pName, setName: e => this.setState({ pName: e.target.value, justAdded: false }), pNameShow: nm || t.nameFallback,
+      plateColors: PLATE_COLORS.map((c, i) => ({ hex: c.hex, name: pick(c, 'ar', 'en'), ring: i === plateIdx ? '0 0 0 2px #fff, 0 0 0 4px #26262B' : '0 0 0 1px rgba(38,38,43,.18)', pick: () => this.setState({ pPlate: i, justAdded: false }) })),
+      textColors: TEXT_COLORS.map((c, i) => ({ hex: c.hex, name: pick(c, 'ar', 'en'), ring: i === S.pText ? '0 0 0 2px #fff, 0 0 0 4px #26262B' : '0 0 0 1px rgba(38,38,43,.18)', pick: () => this.setState({ pText: i, justAdded: false }) })),
+      fontOpts: FONTS.map(f => { const on = S.pFont === f.key; return { label: pick(f, 'ar', 'en'), fam: f.fam, border: on ? '#26262B' : 'rgba(38,38,43,.15)', bg: on ? '#26262B' : '#fff', fg: on ? '#fff' : '#26262B', pick: () => this.setState({ pFont: f.key, justAdded: false }) }; }),
+      shapeOpts: SHAPES.map(s => { const on = S.pShape === s.key; return { label: pick(s, 'ar', 'en'), border: on ? '#26262B' : 'rgba(38,38,43,.15)', bg: on ? '#26262B' : '#fff', fg: on ? '#fff' : '#26262B', pick: () => this.setState({ pShape: s.key, justAdded: false }) }; }),
+      studioOpen: S.studioOpen && !!(pr && pr.pers), openStudio: () => this.setState({ studioOpen: true }), closeStudio: () => this.setState({ studioOpen: false }),
+      catTitle: q ? t.searchRes + '“' + q + '”' : key === 'all' ? t.catAll : key === 'new' ? t.catNew : pick(cat, 'ar', 'en'),
+      catDesc: q ? (base.length ? t.found + base.length + ' ' + t.products : t.noRes) : key === 'all' ? t.catAllD : key === 'new' ? t.catNewD : pick(cat, 'dAr', 'dEn'),
+      listCount: list.length, list, listEmpty: !list.length, ageOpts, sortOpts,
+      persOnly: S.persOnly, togglePers: () => this.setState(s => ({ persOnly: !s.persOnly })), clearFilters: () => this.setState({ ages: [], persOnly: false, sort: 'pop' }),
+      prName: pr ? pr.name : '', prAlt: pr ? pr.alt : '', prAge: pr ? pr.ageLabel : '', prCat: pr ? pr.catName : '', goPrCat: () => pr && this.go('cat', { cat: pr.cat }), prPrice: pr ? pr.priceStr : '', prDesc: pr ? pr.desc : '', prPers: !!(pr && pr.pers), prNew: !!(pr && pr.isNew), prSize: pr ? pr.size : '', prWeight: pr ? pr.weight : '',
+      mainImg: gallery[gi] ? gallery[gi].src : '', mainLabel: gallery[gi] ? gallery[gi].label : '',
+      thumbs: gallery.map((g, i) => ({ ...g, ring: i === gi ? '0 0 0 2px #26262B' : '0 0 0 1px #E7E3DB', pick: () => this.setState({ gal: i }) })),
+      colors: COLORS.map((c, i) => ({ ...c, name: pick(c, 'ar', 'en'), ring: i === S.color ? '0 0 0 2px #FBFAF7, 0 0 0 4px #26262B' : '0 0 0 1px rgba(38,38,43,.15)', pick: () => this.setState({ color: i, justAdded: false }) })), colorName: pick(COLORS[S.color], 'ar', 'en'),
+      persFeeStr: fmt(persFee), qty: S.qty, inc: () => this.setState(s => ({ qty: s.qty + 1, justAdded: false })), dec: () => this.setState(s => ({ qty: Math.max(1, s.qty - 1), justAdded: false })),
+      addLabel: S.justAdded ? t.addedBtn : t.addToCart + money(unit * S.qty), addBg: S.justAdded ? '#2F6B4F' : '#26262B',
+      addOrView: () => { if (!pr) return; if (S.justAdded) return this.go('cart'); this.add(pr.id, S.color, persOn ? nm : '', S.qty, t.tAdded, persOn ? plateOpt : null); this.setState({ justAdded: true, studioOpen: false }); },
+      favLabel: pr && S.favs.includes(pr.id) ? '♥' : '♡', toggleFav: () => pr && this.setState(s => ({ favs: s.favs.includes(pr.id) ? s.favs.filter(x => x !== pr.id) : [...s.favs, pr.id] })),
+      related: pr ? all.filter(p => p.cat === pr.cat && p.id !== pr.id).concat(byPop.filter(p => p.cat !== pr.cat)).slice(0, 4) : [],
+      lines, cartEmpty: !lines.length, hasLines: !!lines.length, checkoutOp: lines.length ? 1 : .5,
+      subtotalStr: fmt(subtotal), shipStr: lines.length && !ship ? t.free : money(ship), cityLabel: pick(city, 'ar', 'en'), totalStr: fmt(total), payTotalStr: fmt(payTotal),
+      gift: S.gift, giftLabel: S.gift ? t.free : t.none, toggleGift: () => this.setState(s => ({ gift: !s.gift })), giftBg: S.gift ? '#26262B' : '#E7E3DB', giftKnob: S.gift ? '17px' : '3px',
+      promo: S.promo, setPromo: e => this.setState({ promo: e.target.value }),
+      applyPromo: () => { const c = S.promo.trim().toUpperCase(); if (c === 'HELLO10') { this.setState({ promoApplied: c }); this.toast(t.tPromoOk); } else this.toast(t.tPromoBad); },
+      hasDiscount: discount > 0, discountStr: fmt(discount), freeShipNote, freeShipNoteOn: !!freeShipNote,
+      fName: fld('name'), fPhone: fld('phone'), fEmail: fld('email'), fArea: fld('area'), fStreet: fld('street'), fNote: fld('note'), cities,
+      shipOpts, payOpts, payCard: S.pay === 'card', cNum: cfld('num'), cExp: cfld('exp'), cCvv: cfld('cvv'),
+      hasCod: cod > 0, codStr: fmt(cod), eta,
+      giftMsg: S.giftMsg, setGiftMsg: e => this.setState({ giftMsg: e.target.value }),
+      paying: S.paying, payLabel: S.paying ? t.paying : (S.pay === 'cod' ? t.confirmBtn : t.payBtn) + money(payTotal),
+      pay: () => {
+        const e = this.validate(t);
+        if (Object.keys(e).length) { this.setState({ errors: e }); this.toast(t.tFill); return; }
+        this.setState({ paying: true, errors: {} });
+        clearTimeout(this._pay);
+        this._pay = setTimeout(() => {
+          const snap = { no: 'MF-' + (2400 + Math.floor(Math.random() * 7000)), lines: lines.map(l => ({ name: l.name, qty: l.qty, line: l.line, note: l.note })), total: fmt(payTotal), ship: ship ? money(ship) : t.free, method: payOpts.find(x => x.key === S.pay).name, phone: S.form.phone, addr: pick(city, 'ar', 'en') + ' — ' + S.form.area + (ar ? '، ' : ', ') + S.form.street, eta };
+          this.setState({ paying: false, order: snap, cart: [], promoApplied: '', promo: '', giftMsg: '' });
+          this.go('done');
+        }, 1500);
+      },
+      o, oLines: o.lines || [], trackOrder: () => this.toast(t.tTrack),
+      hasToast: !!S.toast, toastMsg: S.toast ? S.toast.msg : '', toastAction: !!(S.toast && S.toast.action)
+    };
+  }
+}
+</script>
+</body>
+</html>
